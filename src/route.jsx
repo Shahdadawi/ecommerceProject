@@ -9,49 +9,40 @@ import Register from "./pages/register/Register";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout/>,
-    children:[
+    element: <MainLayout />,
+    children: [
 
       {
         path: 'home',
-        element: <Home/>
+        element: <Home />
       },
 
       {
         path: 'cart',
-        element:<Cart/>
+        element: <Cart />
       },
 
       {
         path: 'profile',
-        element: <Profile/>
+        element: <Profile />
+      },
+
+      {
+        path: 'login',
+        element: <Login />
+
+      },
+
+      {
+        path: 'register',
+        element: <Register />
       }
 
 
     ],
   },
 
-  {
-    path: '/auth',
-
-    element: <AuthLayout/>,
-
-    children:[
-
-      {
-        path: 'login',
-        element:<Login/>
-
-      },
-
-      {
-        path:'register',
-        element:<Register/>
-      }
-
-
-    ],
-  }
+  
 ]);
 
 export default router;

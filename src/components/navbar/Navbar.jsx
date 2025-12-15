@@ -10,7 +10,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
-
+import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -33,7 +34,7 @@ export default function Navbar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ gap: 4 }}>
-          
+
           {/* LOGO */}
           <Typography
             sx={{
@@ -100,20 +101,20 @@ export default function Navbar() {
 
           {/* ICONS */}
           <Box sx={{ display: "flex", gap: 2 }}>
-            <IconButton>
+            <IconButton component={Link} to="/login">
               <PersonIcon sx={{ color: "#1f2d5e" }} />
             </IconButton>
 
             <IconButton>
-              <Badge badgeContent={5} color="warning">
-                <FavoriteIcon sx={{ color: "#1f2d5e" }} />
-              </Badge>
+
+              <FavoriteIcon sx={{ color: "#1f2d5e" }} />
+
             </IconButton>
 
             <IconButton>
-              <Badge badgeContent={2} color="warning">
-                <ShoppingCartIcon sx={{ color: "#1f2d5e" }} />
-              </Badge>
+
+              <ShoppingCartIcon sx={{ color: "#1f2d5e" }} />
+
             </IconButton>
 
             <IconButton>
