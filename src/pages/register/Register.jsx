@@ -1,21 +1,28 @@
-import { Box, Button, TextField, Typography, Checkbox, FormControlLabel, } from "@mui/material";
+import { Box, Button, TextField, Typography, Checkbox, FormControlLabel, CircularProgress, } from "@mui/material";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {RegisterSchema} from '../../validations/RegisterSchema'
+import { RegisterSchema } from '../../validations/RegisterSchema'
+import { Alert } from "@mui/material";
 
 
 export default function Register() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const [serverErrors, setServerErrors] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(RegisterSchema),
     mode: 'onBlur'
 
   });
 
   const registerForm = async (values) => {
+    setServerErrors([]);
+    setSuccessMessage("");
     try {
       const response = await axios.post(
         "https://knowledgeshop.runasp.net/api/Auth/Account/Register",
@@ -23,13 +30,16 @@ export default function Register() {
       );
 
       console.log(response);
+      setSuccessMessage("Account created successfully");
 
     } catch (e) {
       console.log(e.response?.data);
+      setServerErrors(e.response?.data?.errors || []);
     }
   };
 
   return (
+
     <Box sx={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
       <Box sx={{ width: "100%", maxWidth: 450, backgroundColor: "#fff", p: 4, borderRadius: 2, boxShadow: "0 8px 24px rgba(0,0,0,0.05)", margin: 5 }}>
 
@@ -40,6 +50,23 @@ export default function Register() {
         <Typography color="text.secondary" mb={3}>
           Access to all features.
         </Typography>
+
+        {serverErrors.length > 0 && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {serverErrors.map((err, index) => (
+              <div key={index}>{err}</div>
+            ))}
+          </Alert>
+        )}
+
+        {successMessage && serverErrors.length === 0 && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {successMessage}
+          </Alert>
+        )}
+
+
+
 
         <Box component="form" onSubmit={handleSubmit(registerForm)} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
 
@@ -69,9 +96,11 @@ export default function Register() {
           <Button
             type="submit"
             variant="contained"
+            //disabled={isSubmitting}
             sx={{ py: 1.5, backgroundColor: "#445b8f", fontWeight: 600, "&:hover": { backgroundColor: "#364a78" } }}
           >
-            Sign Up
+            {isSubmitting ? <CircularProgress /> : 'Sign Up'}
+
           </Button>
 
         </Box>
