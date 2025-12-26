@@ -5,16 +5,33 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  CircularProgress,
 } from "@mui/material";
 import axios from "axios";
 import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginSchema } from '../../validations/LoginSchema'
+
+import { Alert } from "@mui/material";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm({});
+  const [serverErrors, setServerErrors] = useState([]);
+  const [serverMessage, setServerMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(LoginSchema),
+    mode: 'onBlur'
+  });
 
   const loginForm = async (values) => {
+    setServerErrors([]);
+    setServerMessage("");
+    setSuccessMessage("");
     try {
       const response = await axios.post(
         "https://knowledgeshop.runasp.net/api/Auth/Account/login",
@@ -22,60 +39,93 @@ export default function Login() {
       );
       if (response.status === 200) {
         console.log(response);
+        setSuccessMessage(response.data.message);
         localStorage.setItem("token", response.data.accessToken);
+        setTimeout(() => {
+          navigate("/"); 
+        }, 1000);
       }
     } catch (e) {
       console.log(e.response?.data);
+      const data = e.response?.data;
+      if (Array.isArray(data?.errors) && data.errors.length > 0) {
+        setServerErrors(data.errors);
+      } else if (data?.message) {
+        setServerMessage(data.message);
+      }
     }
   };
 
- return (
-  <Box sx={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
-    <Box sx={{ width: "100%", maxWidth: 450, backgroundColor: "#fff", p: 4, borderRadius: 2, boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}>
-      
-      <Typography variant="h4" fontWeight={700} mb={1}>
-        Member Login
-      </Typography>
+  return (
+    <Box sx={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
+      <Box sx={{ width: "100%", maxWidth: 450, backgroundColor: "#fff", p: 4, borderRadius: 2, boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}>
 
-      <Typography color="text.secondary" mb={3}>
-        Welcome back!
-      </Typography>
+        <Typography variant="h4" fontWeight={700} mb={1}>
+          Member Login
+        </Typography>
 
-      <Box component="form" onSubmit={handleSubmit(loginForm)} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-        
-        <TextField label="Email" {...register("email")} fullWidth />
+        <Typography color="text.secondary" mb={3}>
+          Welcome back!
+        </Typography>
 
-        <TextField label="Password" type="password" {...register("password")} fullWidth />
+        {serverErrors.length > 0 && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {serverErrors.map((err, index) => (
+              <div key={index}>{err}</div>
+            ))}
+          </Alert>
+        )}
 
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          
-          <FormControlLabel control={<Checkbox />} label="Remember me" />
+        {serverMessage && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {serverMessage}
+          </Alert>
+        )}
 
-          <Typography variant="body2" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
-            Forgot your password?
-          </Typography>
+
+
+        {successMessage && serverErrors.length === 0 && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {successMessage}
+          </Alert>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit(loginForm)} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+
+          <TextField label="Email" {...register("email")} fullWidth
+            error={errors.email} helperText={errors.email?.message} />
+
+          <TextField label="Password" type="password" {...register("password")} fullWidth
+            error={errors.password} helperText={errors.password?.message} />
+
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+            <FormControlLabel control={<Checkbox />} label="Remember me" />
+
+            <Typography variant="body2" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+              Forgot your password?
+            </Typography>
+
+          </Box>
+
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ py: 1.5, backgroundColor: "#445b8f", fontWeight: 600, "&:hover": { backgroundColor: "#364a78" } }}
+          >
+            {isSubmitting ? <CircularProgress /> : 'Sign In'}          </Button>
 
         </Box>
 
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ py: 1.5, backgroundColor: "#445b8f", fontWeight: 600, "&:hover": { backgroundColor: "#364a78" } }}
-        >
-          Sign In
-        </Button>
+        <Typography mt={3} textAlign="center" variant="body2">
+          Have not an account?{" "}
+          <Typography onClick={() => navigate("/register")} sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+            Sign up
+          </Typography>
+        </Typography>
 
       </Box>
-
-      <Typography mt={3} textAlign="center" variant="body2">
-        Have not an account?{" "}
-        <Typography component={Link} to="/register" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
-          Sign up
-        </Typography>
-      </Typography>
-
     </Box>
-  </Box>
-);
+  );
 
 }
