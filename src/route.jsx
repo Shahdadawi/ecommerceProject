@@ -6,6 +6,8 @@ import Profile from "./pages/profile/Profile";
 import AuthLayout from "./layout/AuthLayout";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import ForgotPassword from "./pages/forgetPassword/ForgotPassword";
+import ResetCode from "./pages/resetCode/ResetCode";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,13 +38,23 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />
+      },
+
+      {
+        path: 'forgotPassword',
+        element: <ForgotPassword />
+      },
+
+       {
+        path: 'resetCode',
+        element: <ResetCode />
       }
 
 
     ],
   },
 
-  
+
 ]);
 
 export default router;

@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from '../../validations/LoginSchema'
-
 import { Alert } from "@mui/material";
 
 export default function Login() {
@@ -57,7 +56,7 @@ export default function Login() {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
+    <Box sx={{ minHeight: "85vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
       <Box sx={{ width: "100%", maxWidth: 450, backgroundColor: "#fff", p: 4, borderRadius: 2, boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}>
 
         <Typography variant="h4" fontWeight={700} mb={1}>
@@ -102,7 +101,7 @@ export default function Login() {
 
             <FormControlLabel control={<Checkbox />} label="Remember me" />
 
-            <Typography variant="body2" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+            <Typography onClick={() => navigate("/forgotPassword")} variant="body2" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
               Forgot your password?
             </Typography>
 
@@ -119,7 +118,7 @@ export default function Login() {
 
         <Typography mt={3} textAlign="center" variant="body2">
           Have not an account?{" "}
-          <Typography onClick={() => navigate("/register")} sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+          <Typography component="span" onClick={() => navigate("/register")} sx={{ color: "#6c7ae0", cursor: "pointer" }}>
             Sign up
           </Typography>
         </Typography>
