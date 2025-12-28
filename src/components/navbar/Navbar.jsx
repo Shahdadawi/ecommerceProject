@@ -125,7 +125,7 @@ export default function Navbar() {
               <FavoriteIcon />
             </IconButton>
 
-            <IconButton>
+            <IconButton component={Link} to="/cart">
               <ShoppingCartIcon />
             </IconButton>
 
