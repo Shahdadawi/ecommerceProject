@@ -9,8 +9,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { ResetPasswordSchema } from "../../validations/ResetPasswordSchema";
+import axiosInstance from "../../Api/axiosInnstance";
 
 export default function ResetCode() {
   const navigate = useNavigate();
@@ -38,8 +38,8 @@ export default function ResetCode() {
     setSuccessMessage("");
 
     try {
-      const response = await axios.patch(
-        "https://knowledgeshop.runasp.net/api/auth/Account/ResetPassword",
+      const response = await axiosInstance.patch(
+        "/auth/Account/ResetPassword",
         {
           email,               
           code: values.code,

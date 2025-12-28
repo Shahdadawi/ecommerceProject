@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ForgotPasswordSchema } from '../../validations/ForgotPasswordSchema'
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInnstance";
 
 
 export default function ForgotPassword() {
@@ -32,8 +32,11 @@ export default function ForgotPassword() {
         setServerErrors([]);
         setServerMessage("");
         try {
-            const response = await axios.post(
-                "https://knowledgeshop.runasp.net/api/Auth/Account/SendCode",
+            const response = await axiosInstance.post(
+
+
+
+                "/Auth/Account/SendCode",
                 values
             );
 

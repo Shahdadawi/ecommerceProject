@@ -1,11 +1,11 @@
 import React from 'react'
+import Categories from '../../components/categories/Categories'
 
 export default function Home() {
   return (
     <div>
-      <h1>Home</h1>
-      <p>this is home </p>
-      <h3>Products</h3>
+      <Categories/>
+   
     </div>
   )
 }

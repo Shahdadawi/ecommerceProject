@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography, Checkbox, FormControlLabel, CircularProgress, } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from '../../validations/RegisterSchema'
 import { Alert } from "@mui/material";
+import axiosInstance from "../../Api/axiosInnstance";
 
 
 export default function Register() {
@@ -24,8 +24,8 @@ export default function Register() {
     setServerErrors([]);
     setSuccessMessage("");
     try {
-      const response = await axios.post(
-        "https://knowledgeshop.runasp.net/api/Auth/Account/Register",
+      const response = await axiosInstance.post(
+        "/Auth/Account/Register",
         values
       );
 

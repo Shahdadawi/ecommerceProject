@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   CircularProgress,
 } from "@mui/material";
-import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from '../../validations/LoginSchema'
 import { Alert } from "@mui/material";
+import axiosInstance from "../../Api/axiosInnstance";
 
 export default function Login() {
   const [serverErrors, setServerErrors] = useState([]);
@@ -32,8 +32,8 @@ export default function Login() {
     setServerMessage("");
     setSuccessMessage("");
     try {
-      const response = await axios.post(
-        "https://knowledgeshop.runasp.net/api/Auth/Account/login",
+      const response = await axiosInstance.post(
+        "/Auth/Account/login",
         values
       );
       if (response.status === 200) {
