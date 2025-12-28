@@ -7,17 +7,12 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { ForgotPasswordSchema } from '../../validations/ForgotPasswordSchema'
-import axiosInstance from "../../Api/axiosInnstance";
+import useForgotPassword from "../../hooks/useForgotPassword";
 
 
 export default function ForgotPassword() {
-    const navigate = useNavigate();
-    const [serverErrors, setServerErrors] = useState([]);
-    const [serverMessage, setServerMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+
     const {
         register,
         handleSubmit,
@@ -27,37 +22,12 @@ export default function ForgotPassword() {
         mode: "onBlur",
     });
 
+   const {serverErrors,serverMessage,forgotPasswordMutation,successMessage,navigate} = useForgotPassword();
+
     const forgotPasswordForm = async (values) => {
-        setSuccessMessage("");
-        setServerErrors([]);
-        setServerMessage("");
-        try {
-            const response = await axiosInstance.post(
+        await forgotPasswordMutation.mutate(values);
 
-
-
-                "/Auth/Account/SendCode",
-                values
-            );
-
-            if (response.status === 200) {
-                console.log(response);
-                localStorage.setItem("resetEmail", values.email);
-                setSuccessMessage(response.data.message);
-                setTimeout(() => {
-                    navigate("/resetCode");
-                }, 1000);
-            }
-
-        } catch (e) {
-            console.log(e.response?.data);
-            const data = e.response?.data;
-            if (Array.isArray(data?.errors) && data.errors.length > 0) {
-                setServerErrors(data.errors);
-            } else if (data?.message) {
-                setServerMessage(data.message);
-            }
-        }
+       
     };
 
 

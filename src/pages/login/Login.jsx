@@ -8,51 +8,24 @@ import {
   CircularProgress,
 } from "@mui/material";
 import React from "react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from '../../validations/LoginSchema'
 import { Alert } from "@mui/material";
-import axiosInstance from "../../Api/axiosInnstance";
+import useLogin from "../../hooks/useLogin";
 
 export default function Login() {
-  const [serverErrors, setServerErrors] = useState([]);
-  const [serverMessage, setServerMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate();
+
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(LoginSchema),
     mode: 'onBlur'
   });
 
+  const { serverErrors, serverMessage, successMessage, loginMutation , navigate } = useLogin();
   const loginForm = async (values) => {
-    setServerErrors([]);
-    setServerMessage("");
-    setSuccessMessage("");
-    try {
-      const response = await axiosInstance.post(
-        "/Auth/Account/login",
-        values
-      );
-      if (response.status === 200) {
-        console.log(response);
-        setSuccessMessage(response.data.message);
-        localStorage.setItem("token", response.data.accessToken);
-        setTimeout(() => {
-          navigate("/"); 
-        }, 1000);
-      }
-    } catch (e) {
-      console.log(e.response?.data);
-      const data = e.response?.data;
-      if (Array.isArray(data?.errors) && data.errors.length > 0) {
-        setServerErrors(data.errors);
-      } else if (data?.message) {
-        setServerMessage(data.message);
-      }
-    }
+    await loginMutation.mutate(values);
   };
 
   return (

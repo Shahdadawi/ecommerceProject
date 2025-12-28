@@ -7,64 +7,24 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { ResetPasswordSchema } from "../../validations/ResetPasswordSchema";
-import axiosInstance from "../../Api/axiosInnstance";
+import useResetCode from "../../hooks/useResetCode";
 
 export default function ResetCode() {
-  const navigate = useNavigate();
 
-  const [serverErrors, setServerErrors] = useState([]);
-  const [serverMessage, setServerMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
-  const email = localStorage.getItem("resetEmail");
-
-  useEffect(() => {
-    if (!email) {
-      navigate("/forgotPassword");
-    }
-  }, [email, navigate]);
-
-  const {register,handleSubmit,formState: { errors },} = useForm({
+  const { register, handleSubmit, formState: { errors }, } = useForm({
     resolver: yupResolver(ResetPasswordSchema),
     mode: "onBlur",
   });
 
+ 
+
+  const {serverErrors,serverMessage,successMessage,resetCodeMutation,email} = useResetCode();
   const resetPasswordForm = async (values) => {
-    setServerErrors([]);
-    setServerMessage("");
-    setSuccessMessage("");
 
-    try {
-      const response = await axiosInstance.patch(
-        "/auth/Account/ResetPassword",
-        {
-          email,               
-          code: values.code,
-          newPassword: values.newPassword,
-        }
-      );
+    await resetCodeMutation.mutate(values);
 
-      if (response.status === 200) {
-        setSuccessMessage(response.data.message || "Password reset successfully");
-
-        localStorage.removeItem("resetEmail");
-
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      }
-
-    } catch (e) {
-      const data = e.response?.data;
-      if (Array.isArray(data?.errors)) {
-        setServerErrors(data.errors);
-      } else if (data?.message) {
-        setServerMessage(data.message);
-      }
-    }
   };
 
   return (

@@ -24,6 +24,7 @@ const pages = [
 ];
 
 export default function Navbar() {
+
   const [category, setCategory] = React.useState("");
 
   return (

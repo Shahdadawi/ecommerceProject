@@ -1,18 +1,13 @@
 import { Box, Button, TextField, Typography, Checkbox, FormControlLabel, CircularProgress, } from "@mui/material";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from '../../validations/RegisterSchema'
 import { Alert } from "@mui/material";
-import axiosInstance from "../../Api/axiosInnstance";
+import useRegister from "../../hooks/useRegister";
 
 
 export default function Register() {
-
-  const [serverErrors, setServerErrors] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("");
-
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(RegisterSchema),
@@ -20,22 +15,12 @@ export default function Register() {
 
   });
 
+  const {serverErrors,successMessage,registerMutation} = useRegister();
+
   const registerForm = async (values) => {
-    setServerErrors([]);
-    setSuccessMessage("");
-    try {
-      const response = await axiosInstance.post(
-        "/Auth/Account/Register",
-        values
-      );
+   
+    await registerMutation.mutate(values);
 
-      console.log(response);
-      setSuccessMessage("Account created successfully");
-
-    } catch (e) {
-      console.log(e.response?.data);
-      setServerErrors(e.response?.data?.errors || []);
-    }
   };
 
   return (
