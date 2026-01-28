@@ -17,10 +17,13 @@ import {
 import { useProducts } from "../../../hooks/useProducts";
 import { useCategories } from "../../../hooks/useCategories";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Products() {
-const { data, isLoading: loadingProducts } = useProducts();
-const products = data?.data ?? [];
+  const { t, i18n } = useTranslation();
+
+  const { data, isLoading: loadingProducts } = useProducts();
+  const products = data?.data ?? [];
   const { data: categories = [], isLoading: loadingCategories } = useCategories();
   const navigate = useNavigate();
 
@@ -38,13 +41,11 @@ const products = data?.data ?? [];
           mb: 4,
         }}
       >
-        <Typography color="text.secondary">
-          Home / <b>Shop</b>
-        </Typography>
+     
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography color="text.secondary">
-            Showing {products.length} results
+            {t("Showing")} {products.length} {t("results")}
           </Typography>
           <Select size="small" defaultValue="latest">
             <MenuItem value="latest">Sort by latest</MenuItem>
@@ -66,7 +67,7 @@ const products = data?.data ?? [];
           }}
         >
           <Typography fontWeight={700} mb={2}>
-            Product Categories
+            {t("Product Categories")}
           </Typography>
 
           {categories.map((cat) => (
@@ -87,7 +88,7 @@ const products = data?.data ?? [];
           <Divider sx={{ my: 3 }} />
 
           <Typography fontWeight={700} mb={1}>
-            Price
+            {t("Price")}
           </Typography>
 
           {["$0 - $50", "$50 - $100", "$100 - $300"].map((p) => (
@@ -101,7 +102,7 @@ const products = data?.data ?? [];
           <Divider sx={{ my: 3 }} />
 
           <Typography fontWeight={700} mb={1}>
-            Colors
+            {t("Colors")}
           </Typography>
 
           <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
@@ -153,7 +154,7 @@ const products = data?.data ?? [];
                         borderRadius: 1,
                       }}
                     >
-                      New
+                      {t("New")}
                     </Typography>
 
                     <CardMedia
@@ -203,7 +204,7 @@ const products = data?.data ?? [];
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      Add to Cart
+                    {t("Add to Cart")}
                     </Button>
                   </CardContent>
                 </Card>

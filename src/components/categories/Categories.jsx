@@ -11,20 +11,23 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { useCategories } from "../../hooks/useCategories";
+import { useTranslation } from "react-i18next";
 
 export default function Categories() {
+     const { t, i18n } = useTranslation();
     const { isLoading, isError, data } = useCategories();
     if (isLoading) return <CircularProgress />;
     if (isError) return <Typography>Error loading categories</Typography>;
+   
 
     return (
         <Box sx={{ px: 6, py: 4 }}>
             <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
-                Featured Categories
+                {t("Featured Categories")}
             </Typography>
 
             <Typography sx={{ color: "#6b7280", mb: 4 }}>
-                Choose your necessary products from this feature categories.
+                {t("Choose your necessary products from this feature categories.")}
             </Typography>
 
             <Grid container spacing={3}>
@@ -55,7 +58,7 @@ export default function Categories() {
                                     {category.name}
                                 </Typography>
 
-                                
+
                             </CardContent>
                         </Card>
                     </Grid>

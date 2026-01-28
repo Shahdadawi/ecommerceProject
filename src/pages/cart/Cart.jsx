@@ -30,15 +30,18 @@ import useUpdateCartItem from "../../hooks/useUpdateCartItem";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function Cart() {
+    const { t, i18n } = useTranslation();
+  
   const { data, isError, isLoading } = useCart();
   const { mutate: removeItem, isPending } = useRemoveFromCart();
   const { mutate: updateItem, isPending: IsUpdatingItem } = useUpdateCartItem();
   if (isLoading) return <CircularProgress sx={{ m: 4 }} />;
-  if (isError) return <Typography>Error loading Cart Items</Typography>;
+  if (isError) return <Typography>{t("Error loading Cart Items")}</Typography>;
 
   const handleUpdate = (productId, action) => {
     const item = data.items.find(i => i.productId === productId);
@@ -86,10 +89,10 @@ export default function Cart() {
       <Container maxWidth="lg">
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 800, color: "#1f2d5e" }}>
-            Shopping Cart
+            {t("Shopping Cart")}
           </Typography>
           <Typography sx={{ color: "#6b7280", mt: 0.5 }}>
-            Review your items and proceed to checkout.
+            {t("Review your items and proceed to checkout.")}
           </Typography>
         </Box>
 
@@ -111,10 +114,10 @@ export default function Cart() {
             {isEmpty ? (
               <Box sx={{ px: 3, py: 6, textAlign: "center" }}>
                 <Typography sx={{ fontWeight: 700, color: "#1f2d5e", mb: 1 }}>
-                  Your cart is empty
+                  {t("Your cart is empty")}
                 </Typography>
                 <Typography sx={{ color: "#6b7280", mb: 3 }}>
-                  Add items to your cart and they'll appear here.
+                  {t("Add items to your cart and they'll appear here.")}
                 </Typography>
                 <Button
                   variant="contained"
@@ -126,7 +129,7 @@ export default function Cart() {
                     "&:hover": { backgroundColor: "#364a78" },
                   }}
                 >
-                  Continue shopping
+                  {t("Continue shopping")}
                 </Button>
               </Box>
             ) : (
@@ -136,15 +139,15 @@ export default function Cart() {
                   <Table>
                     <TableHead sx={{ backgroundColor: "#f8fafc" }}>
                       <TableRow>
-                        <TableCell sx={{ fontWeight: 700 }}>Product</TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>{t("Product")}</TableCell>
                         <TableCell sx={{ fontWeight: 700 }} align="center">
-                          Quantity
+                          {t("Quantity")}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 700 }} align="right">
-                          Unit Price
+                         {t("Unit Price")}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 700 }} align="right">
-                          Total
+                          {t("Total")}
                         </TableCell>
                         <TableCell align="right" />
                       </TableRow>
@@ -246,7 +249,7 @@ export default function Cart() {
                       fontWeight: 700,
                     }}
                   >
-                    Continue shopping
+                    {t("Continue shopping")}
                   </Button>
 
                   <Button
@@ -258,7 +261,7 @@ export default function Cart() {
                       "&:hover": { backgroundColor: "#364a78" },
                     }}
                   >
-                    Update cart
+                    {t("Update cart")}
                   </Button>
                 </Box>
               </>
@@ -278,16 +281,16 @@ export default function Cart() {
           >
             <Box sx={{ p: 2.5, borderBottom: "1px solid #e5e7eb" }}>
               <Typography sx={{ fontWeight: 900, color: "#1f2d5e" }}>
-                Cart Totals
+                {t("Cart Totals")}
               </Typography>
             </Box>
 
             <Box sx={{ p: 2.5 }}>
               <Stack spacing={1.5}>
-                <Row label="Subtotal" value={`$${data?.cartTotal ?? 0}`} />
-                <Row label="Shipping" value="—" />
+                <Row label={t("Subtotal")} value={`$${data?.cartTotal ?? 0}`} />
+                <Row label={t("Shipping")} value="—" />
                 <Divider />
-                <Row label="Total" value={`$${data?.cartTotal ?? 0}`} bold />
+                <Row label={t("Total")} value={`$${data?.cartTotal ?? 0}`} bold />
               </Stack>
 
               <Button
@@ -302,7 +305,7 @@ export default function Cart() {
                   "&:hover": { backgroundColor: "#364a78" },
                 }}
               >
-                Proceed to Checkout
+                {t("Proceed to Checkout")}
               </Button>
             </Box>
           </Paper>

@@ -12,8 +12,10 @@ import { useParams } from "react-router-dom";
 import { useProductDetails } from "../../../hooks/useProductDetails";
 import { useState } from "react";
 import useAddToCart from "../../../hooks/useAddToCart";
+import { useTranslation } from "react-i18next";
 
 function ProductDetails() {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const { data: product, isLoading } = useProductDetails(id);
 
@@ -88,7 +90,7 @@ function ProductDetails() {
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
-            <Typography fontWeight={600}>Quantity:</Typography>
+            <Typography fontWeight={600}>{t("Quantity")}:</Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Button
@@ -123,7 +125,7 @@ function ProductDetails() {
               }}
               onClick={() => addToCart({ ProductId: product.id, Count: 1 })}
             >
-              Add to cart
+              {t("Add to Cart")}
             </Button>
 
             <Button
@@ -131,7 +133,7 @@ function ProductDetails() {
               disabled={!inStock}
               sx={{ px: 4, fontWeight: 600 }}
             >
-              Buy now
+              {t("Buy now")}
             </Button>
           </Box>
 
@@ -139,7 +141,7 @@ function ProductDetails() {
             <IconButton>
               <FavoriteBorderIcon />
             </IconButton>
-            <Typography fontSize="0.85rem">Add to wishlist</Typography>
+            <Typography fontSize="0.85rem">{t("Add to wishlist")}</Typography>
           </Box>
         </Grid>
       </Grid>

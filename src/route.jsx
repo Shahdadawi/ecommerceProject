@@ -11,6 +11,7 @@ import ResetCode from "./pages/resetCode/ResetCode";
 import Products from "./pages/shop/products/Products";
 import ProductDetails from "./pages/shop/productDetails/ProductDetails";
 import ProtectedRouter from "./ProtectedRouter";
+import CheckOut from "./pages/checkout/CheckOut";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,43 +35,58 @@ const router = createBrowserRouter([
           </ProtectedRouter >
       },
 
+
       {
-        path: 'profile',
-        element: <Profile />
+
+        path: 'checkout',
+        element:
+        <ProtectedRouter>
+          <CheckOut/>
+        </ProtectedRouter>
+         
       },
 
-      {
-        path: 'login',
-        element: <Login />
 
-      },
 
-      {
-        path: 'register',
-        element: <Register />
-      },
 
-      {
-        path: 'shop',
-        element: <Products />
 
-      },
+{
+  path: 'profile',
+    element: <Profile />
+},
 
-      {
-        path: "products/:id",
-        element: <ProductDetails />
+{
+  path: 'login',
+    element: <Login />
 
-      },
+},
 
-      {
-        path: 'forgotPassword',
-        element: <ForgotPassword />
-      },
+{
+  path: 'register',
+    element: <Register />
+},
 
-      {
-        path: 'resetCode',
-        element: <ResetCode />
-      }
+{
+  path: 'shop',
+    element: <Products />
+
+},
+
+{
+  path: "products/:id",
+    element: <ProductDetails />
+
+},
+
+{
+  path: 'forgotPassword',
+    element: <ForgotPassword />
+},
+
+{
+  path: 'resetCode',
+    element: <ResetCode />
+}
 
 
     ],

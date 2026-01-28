@@ -18,15 +18,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-
+import LanguageIcon from "@mui/icons-material/Language";
 import useAuthStore from "../../store/authStore";
+import { useTranslation } from "react-i18next";
 
-const pages = [
-  { label: "Home", path: "/" },
-  { label: "Shop", path: "/shop" },
-  { label: "Blog", path: "/blog" },
-  { label: "Contact Us", path: "/contact" },
-];
+
 
 export default function Navbar() {
   const [category, setCategory] = React.useState("");
@@ -34,6 +30,16 @@ export default function Navbar() {
   const token = useAuthStore((state) => state.token);
   const logout = useAuthStore((state) => state.logout);
   const user = useAuthStore((state) => state.user);
+
+  const { t, i18n } = useTranslation();
+
+  const pages = [
+    { label: t("Home"), path: "/" },
+    { label: t("Shop"), path: "/shop" },
+    { label: t("Blog"), path: "/blog" },
+    { label: t("Contact Us"), path: "/contact" },
+  ];
+
 
   const navigate = useNavigate();
 
@@ -52,6 +58,11 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const changeLanguage = () => {
+    const newLang = i18n.language == 'ar' ? 'en' : 'ar';
+    i18n.changeLanguage(newLang);
+  }
 
 
   return (
@@ -96,19 +107,7 @@ export default function Navbar() {
               gap: 2,
             }}
           >
-            <Select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              displayEmpty
-              variant="standard"
-              disableUnderline
-              sx={{ fontSize: "0.9rem", color: "#555" }}
-            >
-              <MenuItem value="">All categories</MenuItem>
-              <MenuItem value="electronics">Electronics</MenuItem>
-              <MenuItem value="fashion">Fashion</MenuItem>
-              <MenuItem value="sports">Sports</MenuItem>
-            </Select>
+
 
             <InputBase
               placeholder="Search for items"
@@ -192,7 +191,7 @@ export default function Navbar() {
                   }}
                 >
                   <MenuItem onClick={() => { handleMenuClose(); navigate("/profile"); }}>
-                    Profile
+                    {t("Profile")}
                   </MenuItem>
 
                   <MenuItem
@@ -201,7 +200,7 @@ export default function Navbar() {
                       handleLogout();
                     }}
                   >
-                    Logout
+                    {t("Logout")}
                   </MenuItem>
                 </Menu>
               </Box>
@@ -216,8 +215,8 @@ export default function Navbar() {
               <ShoppingCartIcon />
             </IconButton>
 
-            <IconButton>
-              <CompareArrowsIcon />
+            <IconButton onClick={changeLanguage}>
+              <LanguageIcon />
             </IconButton>
           </Box>
 
