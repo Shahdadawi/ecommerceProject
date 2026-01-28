@@ -1,16 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../Api/axiosInnstance";
+import React from 'react'
+import useFetch from './useFetch'
 
-export function useProductDetails(id) {
-  const getProductDetails = async () => {
-    const res = await axiosInstance.get(`/Products/${id}?lang=en`);
-    console.log(res);
-    return res.data.response;
-  };
-
-  return useQuery({
-    queryKey: ["product-details", id],
-    queryFn: getProductDetails,
-    enabled: !!id, 
-  });
+export  function useProductDetails(id) {
+    return useFetch(['product', id],`/Products/${id}`);
 }

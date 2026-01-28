@@ -19,7 +19,8 @@ import { useCategories } from "../../../hooks/useCategories";
 import { useNavigate } from "react-router-dom";
 
 function Products() {
-  const { data: products = [], isLoading: loadingProducts } = useProducts();
+const { data, isLoading: loadingProducts } = useProducts();
+const products = data?.data ?? [];
   const { data: categories = [], isLoading: loadingCategories } = useCategories();
   const navigate = useNavigate();
 

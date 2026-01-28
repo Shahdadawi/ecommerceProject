@@ -13,12 +13,74 @@ import {
   Select,
   MenuItem,
   IconButton,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
+import useCart from "../../hooks/useCart";
+import useRemoveFromCart from "../../hooks/useRemoveFromCart";
+import useUpdateCartItem from "../../hooks/useUpdateCartItem";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import Swal from "sweetalert2";
+
+
 
 export default function Cart() {
+  const { data, isError, isLoading } = useCart();
+  const { mutate: removeItem, isPending } = useRemoveFromCart();
+  const { mutate: updateItem, isPending: IsUpdatingItem } = useUpdateCartItem();
+  if (isLoading) return <CircularProgress sx={{ m: 4 }} />;
+  if (isError) return <Typography>Error loading Cart Items</Typography>;
+
+  const handleUpdate = (productId, action) => {
+    const item = data.items.find(i => i.productId === productId);
+    if (!item) return;
+
+    if (action === "-") {
+      if (item.count === 1) {
+        Swal.fire({
+          title: "Remove item?",
+          text: "This item quantity is 1. Do you want to remove it from the cart?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, remove it",
+          cancelButtonText: "No, keep it",
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            removeItem(productId);
+          }
+        });
+
+        return;
+      }
+
+      updateItem({
+        productId,
+        count: item.count - 1,
+      });
+    }
+
+    if (action === "+") {
+      updateItem({
+        productId,
+        count: item.count + 1,
+      });
+    }
+  };
+
+  const cartItems = data?.items || [];
+  const isEmpty = cartItems.length === 0;
+
   return (
     <Box sx={{ backgroundColor: "#f5f7fb", py: 5, minHeight: "80vh" }}>
       <Container maxWidth="lg">
@@ -36,7 +98,6 @@ export default function Cart() {
             display: "grid",
             gridTemplateColumns: { xs: "1fr", md: "1fr 360px" },
             gap: 3,
-            alignItems: "start",
           }}
         >
           <Paper
@@ -44,177 +105,167 @@ export default function Cart() {
             sx={{
               borderRadius: 2,
               border: "1px solid #e5e7eb",
-              overflow: "hidden",
               backgroundColor: "#fff",
             }}
           >
-            <Box
-              sx={{
-                px: 3,
-                py: 2,
-                display: "grid",
-                gridTemplateColumns: "36px 1.6fr 0.6fr 0.6fr 0.6fr 56px",
-                gap: 2,
-                alignItems: "center",
-                backgroundColor: "#f8fafc",
-                borderBottom: "1px solid #e5e7eb",
-                color: "#475569",
-                fontWeight: 700,
-                fontSize: 13,
-              }}
-            >
-              <Box />
-              <Box>Product</Box>
-              <Box>Unit Price</Box>
-              <Box sx={{ textAlign: "center" }}>Quantity</Box>
-              <Box sx={{ textAlign: "right" }}>Subtotal</Box>
-              <Box sx={{ textAlign: "right" }}>Remove</Box>
-            </Box>
-
-            <Box sx={{ px: 3, py: 6, textAlign: "center" }}>
-              <Typography sx={{ fontWeight: 700, color: "#1f2d5e", mb: 1 }}>
-                Your cart is empty
-              </Typography>
-              <Typography sx={{ color: "#6b7280", mb: 3 }}>
-                Add items to your cart and they’ll appear here.
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<ArrowBackIcon />}
-                sx={{
-                  backgroundColor: "#445b8f",
-                  fontWeight: 700,
-                  px: 3,
-                  "&:hover": { backgroundColor: "#364a78" },
-                }}
-              >
-                Continue shopping
-              </Button>
-            </Box>
-
-            <Divider />
-            <Box
-              sx={{
-                px: 3,
-                py: 2,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: "#fff",
-              }}
-            >
-              <Button
-                variant="outlined"
-                startIcon={<ArrowBackIcon />}
-                sx={{
-                  borderColor: "#cbd5e1",
-                  color: "#1f2d5e",
-                  fontWeight: 700,
-                  "&:hover": { borderColor: "#94a3b8", backgroundColor: "#f8fafc" },
-                }}
-              >
-                Continue shopping
-              </Button>
-
-              <Button
-                variant="contained"
-                startIcon={<AutorenewIcon />}
-                sx={{
-                  backgroundColor: "#445b8f",
-                  fontWeight: 700,
-                  "&:hover": { backgroundColor: "#364a78" },
-                }}
-              >
-                Update cart
-              </Button>
-            </Box>
-
-            <Box
-              sx={{
-                p: 3,
-                display: "grid",
-                gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-                gap: 3,
-                backgroundColor: "#fff",
-              }}
-            >
-              <Paper
-                elevation={0}
-                sx={{
-                  borderRadius: 2,
-                  border: "1px solid #e5e7eb",
-                  p: 2.5,
-                }}
-              >
-                <Typography sx={{ fontWeight: 800, color: "#1f2d5e", mb: 0.5 }}>
-                  Calculate Shipping
+            {isEmpty ? (
+              <Box sx={{ px: 3, py: 6, textAlign: "center" }}>
+                <Typography sx={{ fontWeight: 700, color: "#1f2d5e", mb: 1 }}>
+                  Your cart is empty
                 </Typography>
-                <Typography sx={{ color: "#6b7280", fontSize: 13, mb: 2 }}>
-                  Flat rate: <b>5%</b>
+                <Typography sx={{ color: "#6b7280", mb: 3 }}>
+                  Add items to your cart and they'll appear here.
                 </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<ArrowBackIcon />}
+                  sx={{
+                    backgroundColor: "#445b8f",
+                    fontWeight: 700,
+                    px: 3,
+                    "&:hover": { backgroundColor: "#364a78" },
+                  }}
+                >
+                  Continue shopping
+                </Button>
+              </Box>
+            ) : (
+              <>
+                {/* ===== CART TABLE ===== */}
+                <TableContainer>
+                  <Table>
+                    <TableHead sx={{ backgroundColor: "#f8fafc" }}>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 700 }}>Product</TableCell>
+                        <TableCell sx={{ fontWeight: 700 }} align="center">
+                          Quantity
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }} align="right">
+                          Unit Price
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }} align="right">
+                          Total
+                        </TableCell>
+                        <TableCell align="right" />
+                      </TableRow>
+                    </TableHead>
 
-                <Stack spacing={2}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>Country</InputLabel>
-                    <Select label="Country" defaultValue="">
-                      <MenuItem value="">Select country</MenuItem>
-                    </Select>
-                  </FormControl>
+                    <TableBody>
+                      {cartItems.map((item) => (
+                        <TableRow key={item.productId}>
+                          <TableCell>
+                            <Typography sx={{ fontWeight: 600, color: "#1f2d5e" }}>
+                              {item.productName}
+                            </Typography>
+                          </TableCell>
 
-                  <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-                    <TextField size="small" label="State / Country" fullWidth />
-                    <TextField size="small" label="PostCode / ZIP" fullWidth />
-                  </Box>
+                          <TableCell align="center">
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 1,
+                              }}
+                            >
+                              <IconButton
+                                size="small"
+                                onClick={() => handleUpdate(item.productId, "-")}
+                                sx={{
+                                  border: "1px solid #cbd5e1",
+                                  borderRadius: 1,
+                                  width: 32,
+                                  height: 32,
+                                }}
+                              >
+                                <RemoveIcon fontSize="small" />
+                              </IconButton>
+
+                              <Typography
+                                sx={{
+                                  fontWeight: 700,
+                                  minWidth: 30,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {item.count}
+                              </Typography>
+
+                              <IconButton
+                                size="small"
+                                onClick={() => handleUpdate(item.productId, "+")}
+                                sx={{
+                                  border: "1px solid #cbd5e1",
+                                  borderRadius: 1,
+                                  width: 32,
+                                  height: 32,
+                                }}
+                              >
+                                <AddIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+
+
+
+                          <TableCell align="right">
+                            ${item.price?.toFixed(2) ?? "0.00"}
+                          </TableCell>
+
+                          <TableCell align="right">
+                            ${item.totalPrice?.toFixed(2) ?? "0.00"}
+                          </TableCell>
+
+                          <TableCell align="right">
+                            <IconButton size="small" sx={{ color: "#ef4444" }} onClick={() => removeItem(item.productId)} disabled={isPending}>
+                              <DeleteOutlineIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+
+                <Divider />
+
+                <Box
+                  sx={{
+                    px: 3,
+                    py: 2,
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    startIcon={<ArrowBackIcon />}
+                    sx={{
+                      borderColor: "#cbd5e1",
+                      color: "#1f2d5e",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Continue shopping
+                  </Button>
 
                   <Button
                     variant="contained"
+                    startIcon={<AutorenewIcon />}
                     sx={{
-                      alignSelf: "flex-start",
                       backgroundColor: "#445b8f",
                       fontWeight: 700,
-                      px: 3,
                       "&:hover": { backgroundColor: "#364a78" },
                     }}
                   >
-                    Update
-                  </Button>
-                </Stack>
-              </Paper>
-
-              <Paper
-                elevation={0}
-                sx={{
-                  borderRadius: 2,
-                  border: "1px solid #e5e7eb",
-                  p: 2.5,
-                }}
-              >
-                <Typography sx={{ fontWeight: 800, color: "#1f2d5e", mb: 0.5 }}>
-                  Apply Coupon
-                </Typography>
-                <Typography sx={{ color: "#6b7280", fontSize: 13, mb: 2 }}>
-                  Using a promo code?
-                </Typography>
-
-                <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
-                  <TextField size="small" label="Enter your coupon" fullWidth />
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "#445b8f",
-                      fontWeight: 800,
-                      px: 3,
-                      whiteSpace: "nowrap",
-                      "&:hover": { backgroundColor: "#364a78" },
-                    }}
-                  >
-                    Apply
+                    Update cart
                   </Button>
                 </Box>
-              </Paper>
-            </Box>
+              </>
+            )}
           </Paper>
 
+          {/* ===== CART TOTALS (زي ما هو) ===== */}
           <Paper
             elevation={0}
             sx={{
@@ -223,10 +274,9 @@ export default function Cart() {
               backgroundColor: "#fff",
               position: { md: "sticky" },
               top: { md: 90 },
-              overflow: "hidden",
             }}
           >
-            <Box sx={{ p: 2.5, borderBottom: "1px solid #e5e7eb", background: "#f8fafc" }}>
+            <Box sx={{ p: 2.5, borderBottom: "1px solid #e5e7eb" }}>
               <Typography sx={{ fontWeight: 900, color: "#1f2d5e" }}>
                 Cart Totals
               </Typography>
@@ -234,31 +284,26 @@ export default function Cart() {
 
             <Box sx={{ p: 2.5 }}>
               <Stack spacing={1.5}>
-                <Row label="Subtotal" value="—" />
+                <Row label="Subtotal" value={`$${data?.cartTotal ?? 0}`} />
                 <Row label="Shipping" value="—" />
-                <Row label="Estimate for" value="—" />
-                <Divider sx={{ my: 1 }} />
-                <Row label="Total" value="—" bold />
+                <Divider />
+                <Row label="Total" value={`$${data?.cartTotal ?? 0}`} bold />
               </Stack>
 
               <Button
                 fullWidth
                 variant="contained"
+                disabled={isEmpty}
                 sx={{
                   mt: 3,
                   backgroundColor: "#445b8f",
                   fontWeight: 900,
                   py: 1.4,
-                  borderRadius: 2,
                   "&:hover": { backgroundColor: "#364a78" },
                 }}
               >
                 Proceed to Checkout
               </Button>
-
-              <Typography sx={{ mt: 2, color: "#94a3b8", fontSize: 12, textAlign: "center" }}>
-                Taxes and shipping calculated at checkout.
-              </Typography>
             </Box>
           </Paper>
         </Box>
@@ -269,13 +314,9 @@ export default function Cart() {
 
 function Row({ label, value, bold }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <Typography sx={{ color: "#475569", fontSize: 14, fontWeight: bold ? 800 : 600 }}>
-        {label}
-      </Typography>
-      <Typography sx={{ color: "#1f2d5e", fontSize: 14, fontWeight: bold ? 900 : 800 }}>
-        {value}
-      </Typography>
+    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Typography sx={{ fontWeight: bold ? 800 : 600 }}>{label}</Typography>
+      <Typography sx={{ fontWeight: bold ? 900 : 700 }}>{value}</Typography>
     </Box>
   );
 }

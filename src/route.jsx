@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/forgetPassword/ForgotPassword";
 import ResetCode from "./pages/resetCode/ResetCode";
 import Products from "./pages/shop/products/Products";
 import ProductDetails from "./pages/shop/productDetails/ProductDetails";
+import ProtectedRouter from "./ProtectedRouter";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +28,10 @@ const router = createBrowserRouter([
 
       {
         path: 'cart',
-        element: <Cart />
+        element:
+          <ProtectedRouter  >
+            <Cart />
+          </ProtectedRouter >
       },
 
       {

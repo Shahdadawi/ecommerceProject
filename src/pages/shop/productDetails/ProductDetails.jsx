@@ -11,12 +11,15 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useParams } from "react-router-dom";
 import { useProductDetails } from "../../../hooks/useProductDetails";
 import { useState } from "react";
+import useAddToCart from "../../../hooks/useAddToCart";
 
 function ProductDetails() {
   const { id } = useParams();
   const { data: product, isLoading } = useProductDetails(id);
 
   const [qty, setQty] = useState(1);
+
+  const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
 
   if (isLoading) return <CircularProgress sx={{ m: 4 }} />;
   if (!product) return null;
@@ -111,13 +114,14 @@ function ProductDetails() {
           <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
             <Button
               variant="contained"
-              disabled={!inStock}
+              disabled={!inStock || isAddingToCart}
               sx={{
                 px: 4,
                 backgroundColor: "#445b8f",
                 fontWeight: 600,
                 "&:hover": { backgroundColor: "#364a78" },
               }}
+              onClick={() => addToCart({ ProductId: product.id, Count: 1 })}
             >
               Add to cart
             </Button>

@@ -9,12 +9,17 @@ import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import IconButton from "@mui/material/IconButton";
-import { NavLink, Link } from "react-router-dom";
+import { Link as RouterLink, NavLink, useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import PersonIcon from "@mui/icons-material/Person";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+
+import useAuthStore from "../../store/authStore";
 
 const pages = [
   { label: "Home", path: "/" },
@@ -24,8 +29,30 @@ const pages = [
 ];
 
 export default function Navbar() {
-
   const [category, setCategory] = React.useState("");
+
+  const token = useAuthStore((state) => state.token);
+  const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore((state) => state.user);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
 
   return (
     <AppBar
@@ -41,9 +68,10 @@ export default function Navbar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ gap: 4 }}>
+
           {/* LOGO */}
           <Typography
-            component={Link}
+            component={RouterLink}
             to="/"
             sx={{
               fontSize: "1.8rem",
@@ -115,17 +143,76 @@ export default function Navbar() {
             ))}
           </Box>
 
-          {/* ICONS */}
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <IconButton component={Link} to="/login">
-              <PersonIcon />
-            </IconButton>
+          {/* ICONS + AUTH LOGIC */}
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+
+            {/* USER */}
+            {!token ? (
+              <IconButton component={RouterLink} to="/login">
+                <PersonIcon />
+              </IconButton>
+            ) : (
+              <Box>
+                <Button
+                  onClick={handleMenuOpen}
+                  endIcon={<ExpandMoreIcon />}
+                  sx={{
+                    textTransform: "none",
+                    color: "#1f2d5e",
+                    fontSize: "0.9rem",
+                    fontWeight: 500,
+                    px: 1,
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      mr: 1,
+                      bgcolor: "#f1f5ff",
+                      color: "#1f2d5e",
+                      fontSize: "0.9rem",
+                    }}
+                  >
+                    {user?.name?.[0] || "U"}
+                  </Avatar>
+                  {user?.name || "User"}
+                </Button>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleMenuClose}
+                  PaperProps={{
+                    sx: {
+                      borderRadius: "10px",
+                      mt: 1,
+                      minWidth: 150,
+                    },
+                  }}
+                >
+                  <MenuItem onClick={() => { handleMenuClose(); navigate("/profile"); }}>
+                    Profile
+                  </MenuItem>
+
+                  <MenuItem
+                    onClick={() => {
+                      handleMenuClose();
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </Box>
+
+            )}
 
             <IconButton>
               <FavoriteIcon />
             </IconButton>
 
-            <IconButton component={Link} to="/cart">
+            <IconButton component={RouterLink} to="/cart">
               <ShoppingCartIcon />
             </IconButton>
 
@@ -133,6 +220,7 @@ export default function Navbar() {
               <CompareArrowsIcon />
             </IconButton>
           </Box>
+
         </Toolbar>
       </Container>
     </AppBar>
