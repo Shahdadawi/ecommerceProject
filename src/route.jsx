@@ -13,6 +13,8 @@ import ProductDetails from "./pages/shop/productDetails/ProductDetails";
 import ProtectedRouter from "./ProtectedRouter";
 import CheckOut from "./pages/checkout/CheckOut";
 import Wishlist from "./pages/wishlist/Wishlist";
+import ProfileOrders from "./pages/profile/ProfileOrders";
+import ProfileInfo from "./pages/profile/ProfileInfo";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,7 +62,20 @@ const router = createBrowserRouter([
 
       {
         path: 'profile',
-        element: <Profile />
+        element: <Profile />,
+        children:[
+          {
+            index:true,
+            element:<ProfileInfo/>
+
+
+          },
+          {
+            path:'orders',
+            element:<ProfileOrders/>
+
+          }
+        ]
       },
 
       {
