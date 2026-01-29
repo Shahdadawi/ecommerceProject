@@ -11,20 +11,25 @@ import { ResetPasswordSchema } from "../../validations/ResetPasswordSchema";
 import useResetCode from "../../hooks/useResetCode";
 
 export default function ResetCode() {
-
-
-  const { register, handleSubmit, formState: { errors }, } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(ResetPasswordSchema),
     mode: "onBlur",
   });
 
- 
+  const {
+    serverErrors,
+    serverMessage,
+    successMessage,
+    resetCodeMutation,
+    email,
+  } = useResetCode();
 
-  const {serverErrors,serverMessage,successMessage,resetCodeMutation,email} = useResetCode();
   const resetPasswordForm = async (values) => {
-
     await resetCodeMutation.mutate(values);
-
   };
 
   return (
@@ -34,17 +39,18 @@ export default function ResetCode() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f5f7fb",
+        bgcolor: "background.default",
       }}
     >
       <Box
         sx={{
           width: "100%",
           maxWidth: 420,
-          backgroundColor: "#fff",
+          bgcolor: "background.paper",
           p: 4,
           borderRadius: 2,
-          boxShadow: "0 8px 24px rgba(0,0,0,0.05)",
+          border: "1px solid",
+          borderColor: "divider",
         }}
       >
         <Typography variant="h4" fontWeight={700} mb={1}>
@@ -100,12 +106,7 @@ export default function ResetCode() {
           <Button
             type="submit"
             variant="contained"
-            sx={{
-              py: 1.5,
-              backgroundColor: "#445b8f",
-              fontWeight: 600,
-              "&:hover": { backgroundColor: "#364a78" },
-            }}
+            sx={{ py: 1.5, fontWeight: 600 }}
           >
             Reset Password
           </Button>

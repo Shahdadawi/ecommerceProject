@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 function Products() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { data, isLoading: loadingProducts } = useProducts();
   const products = data?.data ?? [];
@@ -32,7 +32,7 @@ function Products() {
 
   return (
     <Box sx={{ px: 4, py: 4 }}>
-
+      {/* HEADER */}
       <Box
         sx={{
           display: "flex",
@@ -41,28 +41,26 @@ function Products() {
           mb: 4,
         }}
       >
-     
+        <Typography color="text.secondary">
+          {t("Showing")} {products.length} {t("results")}
+        </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography color="text.secondary">
-            {t("Showing")} {products.length} {t("results")}
-          </Typography>
-          <Select size="small" defaultValue="latest">
-            <MenuItem value="latest">Sort by latest</MenuItem>
-            <MenuItem value="price">Sort by price</MenuItem>
-          </Select>
-        </Box>
+        <Select size="small" defaultValue="latest">
+          <MenuItem value="latest">Sort by latest</MenuItem>
+          <MenuItem value="price">Sort by price</MenuItem>
+        </Select>
       </Box>
 
       <Box sx={{ display: "flex", gap: 4 }}>
-
+        {/* FILTER SIDEBAR */}
         <Box
           sx={{
             width: 260,
-            backgroundColor: "#fff",
+            bgcolor: "background.paper",
             borderRadius: 2,
             p: 3,
-            border: "1px solid #e5e7eb",
+            border: "1px solid",
+            borderColor: "divider",
             height: "fit-content",
           }}
         >
@@ -75,10 +73,10 @@ function Products() {
               key={cat.id}
               sx={{
                 fontSize: "0.9rem",
-                color: "#475569",
+                color: "text.secondary",
                 cursor: "pointer",
                 mb: 1,
-                "&:hover": { color: "#445b8f" },
+                "&:hover": { color: "primary.main" },
               }}
             >
               {cat.name}
@@ -115,7 +113,8 @@ function Products() {
                     height: 22,
                     borderRadius: "50%",
                     backgroundColor: c,
-                    border: "1px solid #e5e7eb",
+                    border: "1px solid",
+                    borderColor: "divider",
                     cursor: "pointer",
                   }}
                 />
@@ -124,6 +123,7 @@ function Products() {
           </Box>
         </Box>
 
+        {/* PRODUCTS GRID */}
         <Box sx={{ flex: 1 }}>
           <Grid container spacing={3}>
             {products.map((product) => (
@@ -132,11 +132,13 @@ function Products() {
                   onClick={() => navigate(`/products/${product.id}`)}
                   sx={{
                     borderRadius: 2,
-                    border: "1px solid #e5e7eb",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    bgcolor: "background.paper",
                     cursor: "pointer",
                     transition: "0.3s",
                     "&:hover": {
-                      boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
+                      boxShadow: 6,
                       transform: "translateY(-6px)",
                     },
                   }}
@@ -147,8 +149,8 @@ function Products() {
                         position: "absolute",
                         top: 10,
                         left: 10,
-                        backgroundColor: "#ff8a00",
-                        color: "#fff",
+                        bgcolor: "secondary.main",
+                        color: "secondary.contrastText",
                         fontSize: "0.75rem",
                         px: 1,
                         borderRadius: 1,
@@ -170,11 +172,7 @@ function Products() {
                   </Box>
 
                   <CardContent>
-                    <Typography
-                      fontWeight={600}
-                      color="#1f3a8a"
-                      mb={0.5}
-                    >
+                    <Typography fontWeight={600} color="text.primary" mb={0.5}>
                       {product.name}
                     </Typography>
 
@@ -184,7 +182,7 @@ function Products() {
 
                     <Typography
                       fontWeight={700}
-                      color="#ff8a00"
+                      color="secondary.main"
                       mb={2}
                     >
                       ${product.price}
@@ -194,17 +192,11 @@ function Products() {
                       fullWidth
                       variant="outlined"
                       sx={{
-                        borderColor: "#445b8f",
-                        color: "#445b8f",
                         fontWeight: 600,
-                        "&:hover": {
-                          backgroundColor: "#445b8f",
-                          color: "#fff",
-                        },
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                    {t("Add to Cart")}
+                      {t("Add to Cart")}
                     </Button>
                   </CardContent>
                 </Card>

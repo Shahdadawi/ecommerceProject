@@ -6,32 +6,57 @@ import {
   Checkbox,
   FormControlLabel,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link} from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginSchema } from '../../validations/LoginSchema'
-import { Alert } from "@mui/material";
+import { LoginSchema } from "../../validations/LoginSchema";
 import useLogin from "../../hooks/useLogin";
 
 export default function Login() {
-
-
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
     resolver: yupResolver(LoginSchema),
-    mode: 'onBlur'
+    mode: "onBlur",
   });
 
-  const { serverErrors, serverMessage, successMessage, loginMutation , navigate } = useLogin();
+  const {
+    serverErrors,
+    serverMessage,
+    successMessage,
+    loginMutation,
+    navigate,
+  } = useLogin();
+
   const loginForm = async (values) => {
     await loginMutation.mutate(values);
   };
 
   return (
-    <Box sx={{ minHeight: "85vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f5f7fb" }}>
-      <Box sx={{ width: "100%", maxWidth: 450, backgroundColor: "#fff", p: 4, borderRadius: 2, boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}>
-
+    <Box
+      sx={{
+        minHeight: "85vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "background.default",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 450,
+          bgcolor: "background.paper",
+          p: 4,
+          borderRadius: 2,
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
         <Typography variant="h4" fontWeight={700} mb={1}>
           Member Login
         </Typography>
@@ -54,50 +79,87 @@ export default function Login() {
           </Alert>
         )}
 
-
-
         {successMessage && serverErrors.length === 0 && (
           <Alert severity="success" sx={{ mb: 2 }}>
             {successMessage}
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleSubmit(loginForm)} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(loginForm)}
+          sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+        >
+          <TextField
+            label="Email"
+            {...register("email")}
+            fullWidth
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
 
-          <TextField label="Email" {...register("email")} fullWidth
-            error={errors.email} helperText={errors.email?.message} />
+          <TextField
+            label="Password"
+            type="password"
+            {...register("password")}
+            fullWidth
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
 
-          <TextField label="Password" type="password" {...register("password")} fullWidth
-            error={errors.password} helperText={errors.password?.message} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Remember me"
+            />
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-
-            <FormControlLabel control={<Checkbox />} label="Remember me" />
-
-            <Typography onClick={() => navigate("/forgotPassword")} variant="body2" sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+            <Typography
+              onClick={() => navigate("/forgotPassword")}
+              variant="body2"
+              sx={{
+                color: "primary.main",
+                cursor: "pointer",
+                fontWeight: 500,
+              }}
+            >
               Forgot your password?
             </Typography>
-
           </Box>
 
           <Button
             type="submit"
             variant="contained"
-            sx={{ py: 1.5, backgroundColor: "#445b8f", fontWeight: 600, "&:hover": { backgroundColor: "#364a78" } }}
+            sx={{ py: 1.5, fontWeight: 600 }}
           >
-            {isSubmitting ? <CircularProgress /> : 'Sign In'}          </Button>
-
+            {isSubmitting ? (
+              <CircularProgress size={24} sx={{ color: "#fff" }} />
+            ) : (
+              "Sign In"
+            )}
+          </Button>
         </Box>
 
         <Typography mt={3} textAlign="center" variant="body2">
           Have not an account?{" "}
-          <Typography component="span" onClick={() => navigate("/register")} sx={{ color: "#6c7ae0", cursor: "pointer" }}>
+          <Typography
+            component="span"
+            onClick={() => navigate("/register")}
+            sx={{
+              color: "primary.main",
+              cursor: "pointer",
+              fontWeight: 600,
+            }}
+          >
             Sign up
           </Typography>
         </Typography>
-
       </Box>
     </Box>
   );
-
 }

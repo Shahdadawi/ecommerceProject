@@ -17,16 +17,18 @@ export default function Footer() {
   return (
     <Box
       sx={{
-        backgroundColor: "#f1f5f9",
-        borderTop: "1px solid #e5e7eb",
+        backgroundColor: "background.paper",
+        borderTop: "1px solid",
+        borderColor: "divider",
         mt: 8,
         py: 6,
       }}
     >
       <Container maxWidth="lg">
         <Grid container spacing={6}>
+          {/* ===== CONTACT ===== */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography fontWeight={800} mb={2}>
+            <Typography fontWeight={800} mb={2} color="text.primary">
               Contact
             </Typography>
 
@@ -50,23 +52,29 @@ export default function Footer() {
             </Stack>
 
             <Stack direction="row" spacing={1.5} mt={2}>
-              <IconButton size="small">
-                <FacebookIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small">
-                <InstagramIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small">
-                <TwitterIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small">
-                <LinkedInIcon fontSize="small" />
-              </IconButton>
+              {[FacebookIcon, InstagramIcon, TwitterIcon, LinkedInIcon].map(
+                (Icon, i) => (
+                  <IconButton
+                    key={i}
+                    size="small"
+                    sx={{
+                      color: "text.secondary",
+                      "&:hover": {
+                        color: "primary.main",
+                        backgroundColor: "transparent",
+                      },
+                    }}
+                  >
+                    <Icon fontSize="small" />
+                  </IconButton>
+                )
+              )}
             </Stack>
           </Grid>
 
+          {/* ===== MAKE MONEY ===== */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography fontWeight={800} mb={2}>
+            <Typography fontWeight={800} mb={2} color="text.primary">
               Make Money with Us
             </Typography>
 
@@ -85,7 +93,7 @@ export default function Footer() {
                   color="text.secondary"
                   sx={{
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#1f2d5e" },
+                    "&:hover": { color: "primary.main" },
                   }}
                 >
                   › {item}
@@ -94,8 +102,9 @@ export default function Footer() {
             </Stack>
           </Grid>
 
+          {/* ===== COMPANY ===== */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography fontWeight={800} mb={2}>
+            <Typography fontWeight={800} mb={2} color="text.primary">
               Company
             </Typography>
 
@@ -114,7 +123,7 @@ export default function Footer() {
                   color="text.secondary"
                   sx={{
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#1f2d5e" },
+                    "&:hover": { color: "primary.main" },
                   }}
                 >
                   › {item}
@@ -123,8 +132,9 @@ export default function Footer() {
             </Stack>
           </Grid>
 
+          {/* ===== ACCOUNT & APPS ===== */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography fontWeight={800} mb={2}>
+            <Typography fontWeight={800} mb={2} color="text.primary">
               My Account
             </Typography>
 
@@ -143,7 +153,7 @@ export default function Footer() {
                   color="text.secondary"
                   sx={{
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#1f2d5e" },
+                    "&:hover": { color: "primary.main" },
                   }}
                 >
                   › {item}
@@ -151,7 +161,7 @@ export default function Footer() {
               ))}
             </Stack>
 
-            <Typography fontWeight={800} mb={1}>
+            <Typography fontWeight={800} mb={1} color="text.primary">
               App & Payment
             </Typography>
 
@@ -160,18 +170,8 @@ export default function Footer() {
             </Typography>
 
             <Stack direction="row" spacing={1}>
-              <Box
-                component="img"
-                src="/appstore.png"
-                alt="App Store"
-                sx={{ height: 36 }}
-              />
-              <Box
-                component="img"
-                src="/google-play.png"
-                alt="Google Play"
-                sx={{ height: 36 }}
-              />
+              <Box component="img" src="/appstore.png" alt="App Store" sx={{ height: 36 }} />
+              <Box component="img" src="/google-play.png" alt="Google Play" sx={{ height: 36 }} />
             </Stack>
 
             <Typography fontSize="0.85rem" mt={2} color="text.secondary">
@@ -180,7 +180,6 @@ export default function Footer() {
 
             <Stack direction="row" spacing={1} mt={1}>
               <Box component="img" src="/payment-method.png" sx={{ height: 24 }} />
-
             </Stack>
           </Grid>
         </Grid>
