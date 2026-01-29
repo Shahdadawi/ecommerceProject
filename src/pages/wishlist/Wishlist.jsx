@@ -1,0 +1,109 @@
+import { useEffect, useState } from "react";
+import {
+    Box,
+    Container,
+    Typography,
+    Grid,
+    Button,
+    Paper,
+} from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {
+    getWishlist,
+    removeFromWishlist,
+} from "../../utils/wishlist";
+import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
+
+export default function Wishlist() {
+    const { t } = useTranslation();
+
+    const [wishlist, setWishlist] = useState([]);
+
+    useEffect(() => {
+        setWishlist(getWishlist());
+    }, []);
+
+    const handleRemove = (productId) => {
+        removeFromWishlist(productId);
+        setWishlist(getWishlist());
+
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "info",
+            title: "Removed from wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            customClass: { popup: "swal-toast-offset" },
+        });
+    };
+
+    if (wishlist.length === 0) {
+        return (
+            <Container sx={{ py: 6, textAlign: "center" }}>
+                <FavoriteBorderIcon sx={{ fontSize: 60, color: "#9ca3af" }} />
+                <Typography variant="h6" sx={{ mt: 2, fontWeight: 700 }}>
+                    {t("Your wishlist is empty")}
+                </Typography>
+                <Typography sx={{ color: "#6b7280", mt: 1 }}>
+                    {t("Start adding products you love")} 🤍
+                </Typography>
+            </Container>
+        );
+    }
+
+    return (
+        <Container sx={{ py: 6 }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, mb: 4 }}>
+                {t("My Wishlist")}
+            </Typography>
+
+            <Grid container spacing={3}>
+                {wishlist.map((product) => (
+                    <Grid item xs={12} sm={6} md={4} key={product.id}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                borderRadius: 2,
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1.5,
+                            }}
+                        >
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                style={{
+                                    width: "100%",
+                                    height: 180,
+                                    objectFit: "cover",
+                                    borderRadius: 8,
+                                }}
+                            />
+
+                            <Typography fontWeight={700}>
+                                {product.name}
+                            </Typography>
+
+                            <Typography color="text.secondary">
+                                ${product.price}
+                            </Typography>
+
+                            <Button
+                                variant="outlined"
+                                startIcon={<DeleteOutlineIcon />}
+                                sx={{ mt: 1, fontWeight: 600 }}
+                                onClick={() => handleRemove(product.id)}
+                            >
+                                {t("Remove")}
+                            </Button>
+                        </Paper>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
+    );
+}

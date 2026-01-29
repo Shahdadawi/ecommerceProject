@@ -12,6 +12,7 @@ import Products from "./pages/shop/products/Products";
 import ProductDetails from "./pages/shop/productDetails/ProductDetails";
 import ProtectedRouter from "./ProtectedRouter";
 import CheckOut from "./pages/checkout/CheckOut";
+import Wishlist from "./pages/wishlist/Wishlist";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,53 +41,60 @@ const router = createBrowserRouter([
 
         path: 'checkout',
         element:
-        <ProtectedRouter>
-          <CheckOut/>
-        </ProtectedRouter>
-         
+          <ProtectedRouter>
+            <CheckOut />
+          </ProtectedRouter>
+
+      },
+
+      {
+
+        path:'wishlist' ,
+        element:
+        <Wishlist />
       },
 
 
 
 
 
-{
-  path: 'profile',
-    element: <Profile />
-},
+      {
+        path: 'profile',
+        element: <Profile />
+      },
 
-{
-  path: 'login',
-    element: <Login />
+      {
+        path: 'login',
+        element: <Login />
 
-},
+      },
 
-{
-  path: 'register',
-    element: <Register />
-},
+      {
+        path: 'register',
+        element: <Register />
+      },
 
-{
-  path: 'shop',
-    element: <Products />
+      {
+        path: 'shop',
+        element: <Products />
 
-},
+      },
 
-{
-  path: "products/:id",
-    element: <ProductDetails />
+      {
+        path: "products/:id",
+        element: <ProductDetails />
 
-},
+      },
 
-{
-  path: 'forgotPassword',
-    element: <ForgotPassword />
-},
+      {
+        path: 'forgotPassword',
+        element: <ForgotPassword />
+      },
 
-{
-  path: 'resetCode',
-    element: <ResetCode />
-}
+      {
+        path: 'resetCode',
+        element: <ResetCode />
+      }
 
 
     ],

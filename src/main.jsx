@@ -7,9 +7,14 @@ import '@fontsource/roboto/700.css';
 import './index.css'
 import './i18n.jsx'
 import App from './App.jsx'
+import { ThemeProvider } from '@emotion/react';
+import theme from './theme.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <ThemeProvider theme={theme}>
+    <StrictMode>
+      <App />
+    </StrictMode>
+  </ThemeProvider>
+
 )

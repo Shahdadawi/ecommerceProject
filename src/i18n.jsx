@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
+import {  initReactI18next } from "react-i18next";
 
 i18n
   .use(initReactI18next) 
@@ -60,7 +60,17 @@ i18n
           "Processing...":"Processing...",
           "Cash on Delivery":"Cash on Delivery",
           "Credit Card":"Credit Card",
-          "PayPal":"PayPal"
+          "PayPal":"PayPal",
+          "Payment Method":"Payment Method",
+          "Remove from wishlist":"Remove from wishlist",
+          "Your wishlist is empty":"Your wishlist is empty",
+          "Start adding products you love":"Start adding products you love",
+          "My Wishlist":"My Wishlist",
+          "Remove":"Remove",
+          "In Stock":"In Stock",
+          "Out of stock":"Out of stock",
+          "Reviews":"Reviews",
+          "Customer Reviews":"Customer Reviews"
 
         }
       },
@@ -118,10 +128,17 @@ i18n
           "Phone":"هاتف",
           "Processing...":"تتم عملية الدفع ...",
           "Cash on Delivery":"الدفع عند الاستلام",
-          "Credit Card":"بطاقة إئتمان"
-          
-        
-
+          "Credit Card":"بطاقة إئتمان",
+          "Payment Method":"طريقة الدفع",
+          "Remove from wishlist":"إزالة من قائمة الأمنيات",
+          "Your wishlist is empty":"قائمة أمنياتك فارغة",
+          "Start adding products you love":"ابدأ بإضافة المنتجات التي تحبها",
+          "My Wishlist":"قائمة أمنياتي",
+          "Remove":"حذف",
+          "In Stock":"متوفر في المخزون",
+          "Out of stock":"نفد من المخزون",
+          "Reviews":"تقييمات",
+          "Customer Reviews":"آراء العملاء"
         }
       }
 

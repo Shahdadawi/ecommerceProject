@@ -1,0 +1,4 @@
+.swal-toast-offset {
+  margin-top: 80px !important; /* عدّليها حسب ارتفاع الـ navbar */
+  z-index: 2000 !important;
+}
