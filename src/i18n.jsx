@@ -42,7 +42,25 @@ i18n
           "Your cart is empty":"Your cart is empty",
           "Add items to your cart and they'll appear here":"Add items to your cart and they'll appear here",
           "Remove item?":"Remove item?",
-          "Product":"Product"
+          "Product":"Product",
+          "Your Order":"Your Order",
+          "Review your order before payment":"Review your order before payment",
+          "Order Totals":"Order Totals",
+          "Place an Order":"Place an Order",
+          "Return To Cart":"Return To Cart",
+          "Contact Information":"Contact Information",
+          "Shipping Address":"Shipping Address",
+          "Email":"Email",
+          "First Name":"First Name",
+          "Last Name":"Last Name",
+          "Address":"Address",
+          "City":"City",
+          "ZIP":"ZIP",
+          "Phone":"Phone",
+          "Processing...":"Processing...",
+          "Cash on Delivery":"Cash on Delivery",
+          "Credit Card":"Credit Card",
+          "PayPal":"PayPal"
 
         }
       },
@@ -83,7 +101,27 @@ i18n
           "Your cart is empty":"سلة التسوق الخاصة بك فارغة",
           "Add items to your cart and they'll appear here":"أضف المنتجات إلى سلة التسوق وستظهر هنا",
           "Remove item?":"هل تريد حذف العنصر؟",
-          "Product":"المنتج"
+          "Product":"المنتج",
+          "Your Order":"طلبك",
+          "Review your order before payment":"راجع طلبك قبل الدفع",
+          "Order Totals":"إجمالي الطلب",
+          "Place Order":"قم بتقديم الطلب",
+          "Return To Cart":"العودة إلى سلة التسوق",
+          "Contact Information":"معلومات الاتصال",
+          "Shipping Address":"عنوان الشحن",
+          "Email":"البريد الإلكتروني",
+          "First Name":"الاسم الأول",
+          "Last Name":"اسم العائلة",
+          "Address":"العنوان",
+          "City":"مدينة",
+          "ZIP":"الرمز البريدي",
+          "Phone":"هاتف",
+          "Processing...":"تتم عملية الدفع ...",
+          "Cash on Delivery":"الدفع عند الاستلام",
+          "Credit Card":"بطاقة إئتمان"
+          
+        
+
         }
       }
 

@@ -1,11 +1,250 @@
-import React from 'react'
+import React, { useState } from "react";
+import useCart from "../../hooks/useCart";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import {
+    Box,
+    Container,
+    Typography,
+    Paper,
+    Divider,
+    Button,
+    Stack,
+    TextField,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from "@mui/material";
+import Swal from "sweetalert2";
+
+
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import useCheckOut from "../../hooks/useCheckOut";
 
 function CheckOut() {
-  return (
-    <div>
-      
-    </div>
-  )
+    const { t } = useTranslation();
+    const navigate = useNavigate();
+    const { data, isLoading, isError } = useCart();
+
+    const cartItems = data?.items || [];
+    const isEmpty = cartItems.length === 0;
+
+    const { mutate: checkout, isPending: isCheckOut, isError: isCheckOutError } = useCheckOut();
+
+
+
+
+    const [PaymentMethod, setPaymentMethod] = useState("");
+
+
+
+
+    const handlePlaceOrder = () => {
+
+        if (!PaymentMethod) {
+            Swal.fire({
+                icon: "warning",
+                title: "Payment method required",
+                text: "Please select a payment method to continue.",
+                confirmButtonText: "OK",
+            });
+            return;
+        }
+
+
+        Swal.fire({
+            title: "Confirm Payment",
+            text: "Are you sure you want to place this order?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, place order",
+            cancelButtonText: "Cancel",
+            reverseButtons: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                checkout(
+                    { PaymentMethod },
+                    {
+                        onSuccess: () => {
+                            if (PaymentMethod == "Cash") {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Order placed successfully",
+                                    text: "Your payment has been completed successfully.",
+                                    confirmButtonText: "OK",
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Redirecting to payment",
+                                    text: "You will be redirected to complete your payment securely.",
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                });
+
+                             
+                            }
+
+
+
+                        },
+                        onError: () => {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Payment failed",
+                                text: "Something went wrong. Please try again.",
+                            });
+                        },
+                    }
+                );
+            }
+        });
+    };
+
+
+
+    if (isLoading) return <CircularProgress sx={{ m: 4 }} />;
+    if (isError) return <Typography>Error loading checkout</Typography>;
+
+    return (
+        <Box sx={{ backgroundColor: "#f5f7fb", py: 5, minHeight: "80vh" }}>
+            <Container maxWidth="lg">
+                <Typography variant="h4" sx={{ fontWeight: 800, color: "#1f2d5e" }}>
+                    {t("Your Order")}
+                </Typography>
+                <Typography sx={{ color: "#6b7280", mb: 3 }}>
+                    {t("Review your order before payment")}
+                </Typography>
+
+                <Box
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1.4fr 1fr" },
+                        gap: 3,
+                    }}
+                >
+                    <Paper sx={{ p: 2, borderRadius: 2 }}>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>{t("Product")}</TableCell>
+                                        <TableCell align="center">{t("Quantity")}</TableCell>
+                                        <TableCell align="right">{t("Unit Price")}</TableCell>
+                                        <TableCell align="right">{t("Total")}</TableCell>
+                                    </TableRow>
+                                </TableHead>
+
+                                <TableBody>
+                                    {cartItems.map((item) => (
+                                        <TableRow key={item.productId}>
+                                            <TableCell>{item.productName}</TableCell>
+                                            <TableCell align="center">x{item.count}</TableCell>
+                                            <TableCell align="right">
+                                                ${item.price?.toFixed(2)}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                ${item.totalPrice?.toFixed(2)}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <Button
+                            variant="outlined"
+                            startIcon={<ArrowBackIcon />}
+                            sx={{
+                                borderColor: "#cbd5e1",
+                                color: "#1f2d5e",
+                                fontWeight: 700,
+                            }}
+                            onClick={() => navigate('/cart')}
+
+                        >
+                            {t("Return To Cart")}
+                        </Button>
+                    </Paper>
+
+                    <Paper sx={{ p: 3, borderRadius: 2 }}>
+
+
+                        <Typography sx={{ fontWeight: 800, mb: 1.5 }}>
+                            {t("Payment Method")}
+                        </Typography>
+
+                        <FormControl fullWidth>
+                            <InputLabel id="payment-method-label">
+                                {t("Select Payment Method")}
+                            </InputLabel>
+
+                            <Select
+                                labelId="payment-method-label"
+                                value={PaymentMethod}
+                                label={t("Select Payment Method")}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                            >
+                                <MenuItem value="Cash">{t("Cash on Delivery")}</MenuItem>
+                                <MenuItem value="Visa">{t("Credit Card")}</MenuItem>
+
+                            </Select>
+
+                        </FormControl>
+
+
+                        <Divider sx={{ my: 3 }} />
+
+                        <Stack spacing={1}>
+                            <Row label={t("Subtotal")} value={`$${data.cartTotal}`} />
+                            <Row label={t("Shipping")} value="—" />
+                            <Row label={t("Total")} value={`$${data.cartTotal}`} bold />
+                        </Stack>
+
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{
+                                mt: 3,
+                                backgroundColor: "#445b8f",
+                                fontWeight: 800,
+                            }}
+                            disabled={isEmpty || !PaymentMethod || isCheckOut}
+                            onClick={handlePlaceOrder}
+                        >
+                            {isCheckOut ? t("Processing...") : t("Place Order")}
+                        </Button>
+
+                    </Paper>
+                </Box>
+            </Container>
+        </Box>
+    );
 }
 
-export default CheckOut
+function Row({ label, value, bold }) {
+    return (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography sx={{ fontWeight: bold ? 800 : 600 }}>
+                {label}
+            </Typography>
+            <Typography sx={{ fontWeight: bold ? 900 : 700 }}>
+                {value}
+            </Typography>
+        </Box>
+    );
+}
+
+export default CheckOut;

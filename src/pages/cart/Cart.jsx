@@ -31,12 +31,14 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Cart() {
-    const { t, i18n } = useTranslation();
-  
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const { data, isError, isLoading } = useCart();
   const { mutate: removeItem, isPending } = useRemoveFromCart();
   const { mutate: updateItem, isPending: IsUpdatingItem } = useUpdateCartItem();
@@ -128,7 +130,7 @@ export default function Cart() {
                     px: 3,
                     "&:hover": { backgroundColor: "#364a78" },
                   }}
-                >
+                  onClick={() => navigate('/shop')}                >
                   {t("Continue shopping")}
                 </Button>
               </Box>
@@ -144,7 +146,7 @@ export default function Cart() {
                           {t("Quantity")}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 700 }} align="right">
-                         {t("Unit Price")}
+                          {t("Unit Price")}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 700 }} align="right">
                           {t("Total")}
@@ -248,27 +250,19 @@ export default function Cart() {
                       color: "#1f2d5e",
                       fontWeight: 700,
                     }}
+                    onClick={() => navigate('/shop')}
+
                   >
                     {t("Continue shopping")}
                   </Button>
 
-                  <Button
-                    variant="contained"
-                    startIcon={<AutorenewIcon />}
-                    sx={{
-                      backgroundColor: "#445b8f",
-                      fontWeight: 700,
-                      "&:hover": { backgroundColor: "#364a78" },
-                    }}
-                  >
-                    {t("Update cart")}
-                  </Button>
+
                 </Box>
               </>
             )}
           </Paper>
 
-          {/* ===== CART TOTALS (زي ما هو) ===== */}
+
           <Paper
             elevation={0}
             sx={{
@@ -304,6 +298,9 @@ export default function Cart() {
                   py: 1.4,
                   "&:hover": { backgroundColor: "#364a78" },
                 }}
+
+                onClick={() => navigate('/checkout')}
+
               >
                 {t("Proceed to Checkout")}
               </Button>
