@@ -41,20 +41,21 @@ function CheckOut() {
     if (!PaymentMethod) {
       Swal.fire({
         icon: "warning",
-        title: "Payment method required",
-        text: "Please select a payment method to continue.",
-        confirmButtonText: "OK",
+        title: t("Payment method required"),
+        text: t("Please select a payment method to continue."),
+        confirmButtonText: t("OK"),
+
       });
       return;
     }
 
     Swal.fire({
-      title: "Confirm Payment",
-      text: "Are you sure you want to place this order?",
+      title: t("Confirm Payment"),
+      text: t("Are you sure you want to place this order?"),
+      confirmButtonText: t("Yes, place order"),
+      cancelButtonText: t("Cancel"),
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Yes, place order",
-      cancelButtonText: "Cancel",
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
@@ -65,15 +66,16 @@ function CheckOut() {
               if (PaymentMethod === "Cash") {
                 Swal.fire({
                   icon: "success",
-                  title: "Order placed successfully",
-                  text: "Your payment has been completed successfully.",
-                  confirmButtonText: "OK",
+                  title: t("Order placed successfully"),
+                  text: t("Your payment has been completed successfully."),
+                  confirmButtonText: t("OK"),
+
                 });
               } else {
                 Swal.fire({
                   icon: "info",
-                  title: "Redirecting to payment",
-                  text: "You will be redirected to complete your payment securely.",
+                  title: t("Redirecting to payment"),
+                  text: t("You will be redirected to complete your payment securely."),
                   timer: 2000,
                   showConfirmButton: false,
                 });
@@ -82,8 +84,8 @@ function CheckOut() {
             onError: () => {
               Swal.fire({
                 icon: "error",
-                title: "Payment failed",
-                text: "Something went wrong. Please try again.",
+                title: t("Payment failed"),
+                text: t("Something went wrong. Please try again."),
               });
             },
           }

@@ -1,19 +1,17 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axiosAuthInstance from "../Api/axiosAuthInstance";
 import Swal from "sweetalert2";
-import { useTranslation } from "react-i18next";
 
-export default function useAddToCart() {
-  const { t } = useTranslation();
+export default function useAddReview() {
   const queryClient = useQueryClient();
 
-  const addToCartMutation = useMutation({
-    mutationFn: async ({ ProductId, Count }) => {
-      const response = await axiosAuthInstance.post("/Carts", {
-        ProductId,
-        Count,
+  const addReviewMutation = useMutation({
+    mutationFn: async ({ Rating, Comment , ProductId }) => {
+      const response = await axiosAuthInstance.post(`/Products/${ProductId}/reviews`, {
+        Rating,
+        Comment,
       });
-      console.log("Add to cart response:", response.data);
+      console.log("Add Review response:", response.data);
       return response.data;
     },
     onSuccess: () => {
@@ -21,7 +19,7 @@ export default function useAddToCart() {
         toast: true,
         position: "top-end",
         icon: "success",
-        title: t("Added to cart"),
+        title: "Added Review",
         showConfirmButton: false,
         timer: 1500,
         timerProgressBar: true,
@@ -31,9 +29,9 @@ export default function useAddToCart() {
       });
 
       console.log("Invalidating queries...");
-      queryClient.invalidateQueries({ queryKey: ["carts"] });
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
   });
 
-  return addToCartMutation;
+  return addReviewMutation;
 }

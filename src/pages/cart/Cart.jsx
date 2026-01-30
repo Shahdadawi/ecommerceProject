@@ -52,15 +52,16 @@ export default function Cart() {
     if (action === "-") {
       if (item.count === 1) {
         Swal.fire({
-          title: "Remove item?",
-          text: "This item quantity is 1. Do you want to remove it from the cart?",
+          title: t("Remove item?"),
+          text: t("This item quantity is 1. Do you want to remove it from the cart?"),
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Yes, remove it",
-          cancelButtonText: "No, keep it",
+          confirmButtonText: t("Yes, remove it"),
+          cancelButtonText: t("No, keep it"),
         }).then((result) => {
           if (result.isConfirmed) removeItem(productId);
         });
+
         return;
       }
 
@@ -87,6 +88,7 @@ export default function Cart() {
         clearCart();
       }
     });
+
   };
 
 
@@ -135,7 +137,7 @@ export default function Cart() {
                   {t("Your cart is empty")}
                 </Typography>
                 <Typography color="text.secondary" mb={3}>
-                  {t("Add items to your cart and they'll appear here.")}
+                  {t("Add items to your cart and they'll appear here")}
                 </Typography>
                 <Button
                   variant="contained"

@@ -7,6 +7,7 @@ import {
   Divider,
   IconButton,
   Chip,
+  TextField,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -23,11 +24,17 @@ import {
   isInWishlist,
 } from "../../../utils/wishlist";
 import { useEffect, useState } from "react";
+import useAddReview from "../../../hooks/useAddReview";
 
 function ProductDetails() {
   const { t } = useTranslation();
   const { id } = useParams();
   const { data: product, isLoading } = useProductDetails(id);
+  const { mutate: addReview, isPending } = useAddReview();
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+
+
   const [inWishlist, setInWishlist] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -66,6 +73,10 @@ function ProductDetails() {
     product.image,
     ...(product.subImages || []),
   ];
+
+  const formatDate = (date) =>
+    new Date(date).toLocaleDateString();
+
 
   return (
     <Box sx={{ px: { xs: 2, md: 8 }, py: 6 }}>
@@ -191,6 +202,136 @@ function ProductDetails() {
           </Box>
         </Grid>
       </Grid>
+
+
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h6" fontWeight={700} mb={2}>
+          {t("Add a review")}
+        </Typography>
+
+        {/* ⭐ Stars */}
+        <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <IconButton key={star} onClick={() => setRating(star)}>
+              {star <= rating ? (
+                <StarIcon color="warning" />
+              ) : (
+                <StarBorderIcon />
+              )}
+            </IconButton>
+          ))}
+        </Box>
+
+        <TextField
+          fullWidth
+          multiline
+          rows={3}
+          placeholder={t("Write your review here")}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+
+        <Button
+          sx={{ mt: 2 }}
+          variant="contained"
+          disabled={isPending}
+          onClick={() =>
+            addReview(
+              {
+                ProductId: product.id,
+                Rating: rating,
+                Comment: comment,
+              },
+              {
+                onError: (error) => {
+                  // 👇 هون السحر
+                  Swal.fire({
+                    icon: "error",
+                    title: t("Not allowed"),
+                    text:
+                      error.response?.data?.message ||
+                      t("You can only review products you have purchased."),
+                  });
+                },
+              }
+            )
+          }
+        >
+          {t("Submit review")}
+        </Button>
+
+
+        <Box sx={{ mt: 6 }}>
+          <Typography variant="h6" fontWeight={700} mb={2}>
+            {t("Customer Reviews")}
+          </Typography>
+
+          {product.reviews.length === 0 ? (
+            <Typography color="text.secondary">
+              {t("No reviews yet")}
+            </Typography>
+          ) : (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              {product.reviews.map((review, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    p: 3,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    borderRadius: 2,
+                    bgcolor: "background.paper",
+                  }}
+                >
+                  {/* Header */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography fontWeight={700}>
+                      {review.userName}
+                    </Typography>
+
+                    <Typography variant="caption" color="text.secondary">
+                      {formatDate(review.createdAt)}
+                    </Typography>
+                  </Box>
+
+                  {/* Stars */}
+                  <Box sx={{ display: "flex", gap: 0.5, mb: 1 }}>
+                    {[1, 2, 3, 4, 5].map((star) =>
+                      star <= review.rating ? (
+                        <StarIcon
+                          key={star}
+                          fontSize="small"
+                          color="warning"
+                        />
+                      ) : (
+                        <StarBorderIcon
+                          key={star}
+                          fontSize="small"
+                          color="disabled"
+                        />
+                      )
+                    )}
+                  </Box>
+
+                  {/* Comment */}
+                  <Typography color="text.secondary">
+                    {review.comment}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
+        </Box>
+
+      </Box>
+
     </Box>
   );
 }

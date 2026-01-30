@@ -9,9 +9,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-function Product({ product }) {
-  const navigate = useNavigate();
+function Product({ product, children }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -32,11 +32,7 @@ function Product({ product }) {
         component="img"
         image={product.image}
         alt={product.name}
-        sx={{
-          height: 180,
-          objectFit: "contain",
-          p: 2,
-        }}
+        sx={{ height: 180, objectFit: "contain", p: 2 }}
       />
 
       <CardContent>
@@ -48,10 +44,11 @@ function Product({ product }) {
           ${product.price}
         </Typography>
 
-        
+        {children}
       </CardContent>
     </Card>
   );
 }
+
 
 export default Product;

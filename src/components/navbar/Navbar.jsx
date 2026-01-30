@@ -45,7 +45,7 @@ export default function Navbar() {
   const pages = [
     { label: t("Home"), path: "/" },
     { label: t("Shop"), path: "/shop" },
-    { label: t("Blog"), path: "/blog" },
+    { label: t("About Us"), path: "/about" },
     { label: t("Contact Us"), path: "/contact" },
   ];
 

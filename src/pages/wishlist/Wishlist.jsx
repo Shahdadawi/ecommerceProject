@@ -5,16 +5,17 @@ import {
   Typography,
   Grid,
   Button,
-  Paper,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
+
+import Product from "../../components/product/Product";
 import {
   getWishlist,
   removeFromWishlist,
 } from "../../utils/wishlist";
-import Swal from "sweetalert2";
-import { useTranslation } from "react-i18next";
 
 export default function Wishlist() {
   const { t } = useTranslation();
@@ -42,9 +43,9 @@ export default function Wishlist() {
 
   if (wishlist.length === 0) {
     return (
-      <Container sx={{ py: 6, textAlign: "center" }}>
+      <Container sx={{ py: 8, textAlign: "center" }}>
         <FavoriteBorderIcon
-          sx={{ fontSize: 60, color: "text.disabled" }}
+          sx={{ fontSize: 64, color: "text.disabled" }}
         />
         <Typography variant="h6" sx={{ mt: 2, fontWeight: 700 }}>
           {t("Your wishlist is empty")}
@@ -65,55 +66,20 @@ export default function Wishlist() {
       <Grid container spacing={3}>
         {wishlist.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Paper
-              sx={{
-                p: 2,
-                borderRadius: 2,
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
-                bgcolor: "background.paper",
-                border: "1px solid",
-                borderColor: "divider",
-                transition: "0.2s",
-                "&:hover": {
-                  boxShadow: 4,
-                },
-              }}
-            >
-              <Box
-                component="img"
-                src={product.image}
-                alt={product.name}
-                sx={{
-                  width: "100%",
-                  height: 180,
-                  objectFit: "cover",
-                  borderRadius: 2,
-                  bgcolor: "background.default",
-                }}
-              />
-
-              <Typography fontWeight={700} color="text.primary">
-                {product.name}
-              </Typography>
-
-              <Typography color="text.secondary">
-                ${product.price}
-              </Typography>
-
+            <Product product={product}>
               <Button
                 variant="outlined"
+                color="error"
                 startIcon={<DeleteOutlineIcon />}
-                sx={{
-                  mt: 1,
-                  fontWeight: 600,
+                sx={{ fontWeight: 600 }}
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  handleRemove(product.id);
                 }}
-                onClick={() => handleRemove(product.id)}
               >
                 {t("Remove")}
               </Button>
-            </Paper>
+            </Product>
           </Grid>
         ))}
       </Grid>

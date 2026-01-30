@@ -15,6 +15,8 @@ import CheckOut from "./pages/checkout/CheckOut";
 import Wishlist from "./pages/wishlist/Wishlist";
 import ProfileOrders from "./pages/profile/ProfileOrders";
 import ProfileInfo from "./pages/profile/ProfileInfo";
+import About from "./pages/about/About";
+import Contact from "./pages/contact/Contact";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,9 +53,13 @@ const router = createBrowserRouter([
 
       {
 
-        path:'wishlist' ,
+        path: 'wishlist',
         element:
-        <Wishlist />
+          <ProtectedRouter>
+
+            <Wishlist />
+          </ProtectedRouter>
+
       },
 
 
@@ -63,16 +69,16 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
-        children:[
+        children: [
           {
-            index:true,
-            element:<ProfileInfo/>
+            index: true,
+            element: <ProfileInfo />
 
 
           },
           {
-            path:'orders',
-            element:<ProfileOrders/>
+            path: 'orders',
+            element: <ProfileOrders />
 
           }
         ]
@@ -109,6 +115,16 @@ const router = createBrowserRouter([
       {
         path: 'resetCode',
         element: <ResetCode />
+      },
+
+      {
+        path: 'about',
+        element: <About />
+      },
+
+      {
+        path: 'contact',
+        element: <Contact />
       }
 
 
