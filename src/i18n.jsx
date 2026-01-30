@@ -111,7 +111,40 @@ i18n
           "Status": "Status",
 
           "paid": "Paid",
-          "unpaid": "Unpaid"
+          "unpaid": "Unpaid",
+          "No products found in this category": "No products found in this category",
+
+          "No products here yet": "No products here yet",
+          "Our Products": "Our Products",
+          "Explore products available in this section": "Explore products available in this section",
+          "This category does not have any products at the moment. Try choosing a different category or check back later.": "This category does not have any products at the moment. Try choosing a different category or check back later.",
+          "Welcome to our store": "Welcome to our store",
+          "Browse products by category or explore all available items in our store.": "Explore our products and filter them by category.",
+          "Filters": "Filters",
+          "Clear All": "Clear All",
+          "Search": "Search",
+          "Search products by name...": "Search products by name...",
+          "Category": "Category",
+          "Min Price": "Min Price",
+          "Max Price": "Max Price",
+          "Sort By": "Sort By",
+          "None": "None",
+          "Name": "Name",
+          "Rating": "Rating",
+          "Order": "Order",
+          "Ascending": "Ascending",
+          "Descending": "Descending",
+          "Apply Filters": "Apply Filters",
+          "Active Filters": "Active Filters",
+          "Min": "Min",
+          "Max": "Max",
+          "Sort": "Sort",
+          "Asc": "Asc",
+          "Desc": "Desc",
+          "No products found": "No products found",
+          "Try adjusting your filters": "Try adjusting your filters",
+          "products": "products"
+
 
 
 
@@ -221,7 +254,38 @@ i18n
           "Status": "الحالة",
 
           "paid": "مدفوع",
-          "unpaid": "غير مدفوع"
+          "unpaid": "غير مدفوع",
+          "No products found in this category": "لم يتم العثور على منتجات في هذه الفئة",
+          "No products here yet": "لا توجد منتجات حالياً",
+          "Our Products": "المنتجات",
+          "Explore products available in this section": "تصفّح المنتجات المتوفرة ضمن هذا القسم",
+          "This category does not have any products at the moment. Try choosing a different category or check back later.": "هذا التصنيف لا يحتوي على منتجات حالياً. جرّب تصنيفًا آخر أو عود لاحقًا.",
+          "Welcome to our store": "مرحبًا بكم في متجرنا",
+          "Browse products by category or explore all available items in our store.": "استكشاف المنتجات وإمكانية تصفيتها حسب التصنيف.",
+          "Filters": "الفلاتر",
+          "Clear All": "مسح الكل",
+          "Search": "بحث",
+          "Search products by name...": "ابحث عن المنتجات بالاسم...",
+          "Category": "التصنيف",
+          "Min Price": "أقل سعر",
+          "Max Price": "أعلى سعر",
+          "Sort By": "الترتيب حسب",
+          "None": "بدون",
+          "Name": "الاسم",
+          "Rating": "التقييم",
+          "Order": "الترتيب",
+          "Ascending": "تصاعدي",
+          "Descending": "تنازلي",
+          "Apply Filters": "تطبيق الفلاتر",
+          "Active Filters": "الفلاتر المفعّلة",
+          "Min": "الحد الأدنى",
+          "Max": "الحد الأقصى",
+          "Sort": "الترتيب",
+          "Asc": "تصاعدي",
+          "Desc": "تنازلي",
+          "No products found": "لا توجد منتجات",
+          "Try adjusting your filters": "جرّب تعديل الفلاتر",
+          "products": "منتجات"
 
 
         }

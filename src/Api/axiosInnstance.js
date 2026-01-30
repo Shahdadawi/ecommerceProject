@@ -3,6 +3,7 @@ import i18n from '../i18n';
 
 const axiosInstance = axios.create({
     baseURL: 'https://knowledgeshop.runasp.net/api',
+    withCredentials:true,
 });
 
 axiosInstance.interceptors.request.use((config) => {

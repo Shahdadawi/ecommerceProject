@@ -28,6 +28,7 @@ import useUpdateCartItem from "../../hooks/useUpdateCartItem";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import useClearCart from "../../hooks/useClearCart";
 
 export default function Cart() {
   const { t } = useTranslation();
@@ -36,9 +37,13 @@ export default function Cart() {
   const { data, isError, isLoading } = useCart();
   const { mutate: removeItem, isPending } = useRemoveFromCart();
   const { mutate: updateItem } = useUpdateCartItem();
+  const { mutate: clearCart, isPending: clearingCart } = useClearCart();
 
   if (isLoading) return <CircularProgress sx={{ m: 4 }} />;
   if (isError) return <Typography>{t("Error loading Cart Items")}</Typography>;
+
+
+
 
   const handleUpdate = (productId, action) => {
     const item = data.items.find((i) => i.productId === productId);
@@ -66,6 +71,24 @@ export default function Cart() {
       updateItem({ productId, count: item.count + 1 });
     }
   };
+
+
+
+  const handleClearCart = () => {
+    Swal.fire({
+      title: t("Clear cart?"),
+      text: t("This will remove all items from your cart."),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: t("Yes, clear cart"),
+      cancelButtonText: t("Cancel"),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearCart();
+      }
+    });
+  };
+
 
   const cartItems = data?.items || [];
   const isEmpty = cartItems.length === 0;
@@ -236,6 +259,15 @@ export default function Cart() {
                     onClick={() => navigate("/shop")}
                   >
                     {t("Continue shopping")}
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleClearCart}
+                    disabled={clearingCart || isEmpty}
+                  >
+                    {clearingCart ? <CircularProgress size={20} /> : t("Clear cart")}
                   </Button>
                 </Box>
               </>

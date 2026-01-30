@@ -271,24 +271,25 @@ export default function ProfileInfo() {
         {t("Change Email")}
       </Typography>
 
-      <TextField
-        fullWidth
-        sx={{ maxWidth: 400 }}
-        label={t("New Email")}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <Box sx={{ maxWidth: 400 }}>
+        <TextField
+          fullWidth
+          label={t("New Email")}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <Button
-        sx={{ mt: 2 }}
-        variant="contained"
-        onClick={handleChangeEmail}
-        disabled={changeEmail.isLoading}
-      >
-        {t("Update Email")}
-      </Button>
+        <Button
+          sx={{ mt: 2 }}
+          variant="outlined"
+          onClick={handleChangeEmail}
+          disabled={changeEmail.isLoading}
+        >
+          {t("Update Email")}
+        </Button>
+      </Box>
 
-      {/* ===== CHANGE PASSWORD ===== */}
+
       <Divider sx={{ my: 5 }} />
 
       <Typography variant="h6" fontWeight={700} mb={2}>
