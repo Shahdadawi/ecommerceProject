@@ -12,8 +12,11 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -26,28 +29,28 @@ export default function Footer() {
     >
       <Container maxWidth="lg">
         <Grid container spacing={6}>
-          {/* ===== CONTACT ===== */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography fontWeight={800} mb={2} color="text.primary">
-              Contact
+              {t("Contact")}
             </Typography>
 
             <Stack spacing={1.2}>
               <Typography fontSize="0.9rem" color="text.secondary">
-                Address: 502 New Design Str, Melbourne, San Francisco, CA 94110,
-                United States
+                {t(
+                  "Address: 502 New Design Str, Melbourne, San Francisco, CA 94110, United States"
+                )}
               </Typography>
 
               <Typography fontSize="0.9rem" color="text.secondary">
-                Phone: (+01) 123 456 789
+                {t("Phone: (+01) 123 456 789")}
               </Typography>
 
               <Typography fontSize="0.9rem" color="text.secondary">
-                E-mail: contact@ecom-market.com
+                {t("E-mail: contact@ecom-market.com")}
               </Typography>
 
               <Typography fontSize="0.9rem" color="text.secondary">
-                Hours: 8:00 - 17:00, Mon - Sat
+                {t("Hours: 8:00 - 17:00, Mon - Sat")}
               </Typography>
             </Stack>
 
@@ -72,10 +75,9 @@ export default function Footer() {
             </Stack>
           </Grid>
 
-          {/* ===== MAKE MONEY ===== */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography fontWeight={800} mb={2} color="text.primary">
-              Make Money with Us
+              {t("Make Money with Us")}
             </Typography>
 
             <Stack spacing={1}>
@@ -96,16 +98,15 @@ export default function Footer() {
                     "&:hover": { color: "primary.main" },
                   }}
                 >
-                  › {item}
+                  › {t(item)}
                 </Link>
               ))}
             </Stack>
           </Grid>
 
-          {/* ===== COMPANY ===== */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography fontWeight={800} mb={2} color="text.primary">
-              Company
+              {t("Company")}
             </Typography>
 
             <Stack spacing={1}>
@@ -126,16 +127,15 @@ export default function Footer() {
                     "&:hover": { color: "primary.main" },
                   }}
                 >
-                  › {item}
+                  › {t(item)}
                 </Link>
               ))}
             </Stack>
           </Grid>
 
-          {/* ===== ACCOUNT & APPS ===== */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography fontWeight={800} mb={2} color="text.primary">
-              My Account
+              {t("My Account")}
             </Typography>
 
             <Stack spacing={1} mb={3}>
@@ -156,30 +156,46 @@ export default function Footer() {
                     "&:hover": { color: "primary.main" },
                   }}
                 >
-                  › {item}
+                  › {t(item)}
                 </Link>
               ))}
             </Stack>
 
             <Typography fontWeight={800} mb={1} color="text.primary">
-              App & Payment
+              {t("App & Payment")}
             </Typography>
 
             <Typography fontSize="0.85rem" color="text.secondary" mb={2}>
-              Download our Apps and get extra 15% Discount on your first Order!
+              {t(
+                "Download our Apps and get extra 15% Discount on your first Order!"
+              )}
             </Typography>
 
             <Stack direction="row" spacing={1}>
-              <Box component="img" src="/appstore.png" alt="App Store" sx={{ height: 36 }} />
-              <Box component="img" src="/google-play.png" alt="Google Play" sx={{ height: 36 }} />
+              <Box
+                component="img"
+                src="/appstore.png"
+                alt="App Store"
+                sx={{ height: 36 }}
+              />
+              <Box
+                component="img"
+                src="/google-play.png"
+                alt="Google Play"
+                sx={{ height: 36 }}
+              />
             </Stack>
 
             <Typography fontSize="0.85rem" mt={2} color="text.secondary">
-              Secured Payment Gateways
+              {t("Secured Payment Gateways")}
             </Typography>
 
             <Stack direction="row" spacing={1} mt={1}>
-              <Box component="img" src="/payment-method.png" sx={{ height: 24 }} />
+              <Box
+                component="img"
+                src="/payment-method.png"
+                sx={{ height: 24 }}
+              />
             </Stack>
           </Grid>
         </Grid>

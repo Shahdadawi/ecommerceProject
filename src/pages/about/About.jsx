@@ -44,7 +44,6 @@ export default function About() {
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: { xs: 6, md: 8 } }}>
       <Container maxWidth="lg">
-        {/* Header */}
         <Box sx={{ textAlign: "center", mb: 6 }}>
           <Typography
             variant="h3"
@@ -73,7 +72,6 @@ export default function About() {
           </Typography>
         </Box>
 
-        {/* About Text */}
         <Grid container justifyContent="center" sx={{ mb: 6 }}>
           <Grid item xs={12} md={10} lg={8}>
             <Paper
@@ -99,7 +97,6 @@ export default function About() {
           </Grid>
         </Grid>
 
-        {/* Features */}
         <Grid container spacing={3} justifyContent="center">
           {features.map((item, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
@@ -151,7 +148,6 @@ export default function About() {
           ))}
         </Grid>
 
-        {/* Bottom Banner */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
           <Paper
             elevation={0}

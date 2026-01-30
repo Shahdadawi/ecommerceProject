@@ -81,7 +81,6 @@ function ProductDetails() {
   return (
     <Box sx={{ px: { xs: 2, md: 8 }, py: 6 }}>
       <Grid container spacing={6}>
-        {/* IMAGE */}
         <Grid item xs={12} md={6}>
           <Box
             sx={{
@@ -130,7 +129,6 @@ function ProductDetails() {
           )}
         </Grid>
 
-        {/* DETAILS */}
         <Grid item xs={12} md={6}>
           <Typography variant="h4" fontWeight={700} mb={2}>
             {product.name}
@@ -209,7 +207,6 @@ function ProductDetails() {
           {t("Add a review")}
         </Typography>
 
-        {/* ⭐ Stars */}
         <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
           {[1, 2, 3, 4, 5].map((star) => (
             <IconButton key={star} onClick={() => setRating(star)}>
@@ -244,7 +241,6 @@ function ProductDetails() {
               },
               {
                 onError: (error) => {
-                  // 👇 هون السحر
                   Swal.fire({
                     icon: "error",
                     title: t("Not allowed"),
@@ -283,7 +279,6 @@ function ProductDetails() {
                     bgcolor: "background.paper",
                   }}
                 >
-                  {/* Header */}
                   <Box
                     sx={{
                       display: "flex",
@@ -301,7 +296,6 @@ function ProductDetails() {
                     </Typography>
                   </Box>
 
-                  {/* Stars */}
                   <Box sx={{ display: "flex", gap: 0.5, mb: 1 }}>
                     {[1, 2, 3, 4, 5].map((star) =>
                       star <= review.rating ? (
@@ -320,7 +314,6 @@ function ProductDetails() {
                     )}
                   </Box>
 
-                  {/* Comment */}
                   <Typography color="text.secondary">
                     {review.comment}
                   </Typography>

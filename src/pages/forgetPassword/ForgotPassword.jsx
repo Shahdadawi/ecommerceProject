@@ -9,8 +9,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ForgotPasswordSchema } from "../../validations/ForgotPasswordSchema";
 import useForgotPassword from "../../hooks/useForgotPassword";
+import { useTranslation } from "react-i18next";
 
 export default function ForgotPassword() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -54,11 +56,11 @@ export default function ForgotPassword() {
         }}
       >
         <Typography variant="h4" fontWeight={700} mb={1}>
-          Forgot Password?
+          {t("Forgot Password?")}
         </Typography>
 
         <Typography color="text.secondary" mb={3}>
-          Enter your email and we’ll send you a reset Code.
+          {t("Enter your email and we’ll send you a reset Code.")}
         </Typography>
 
         {serverErrors.length > 0 && (
@@ -87,7 +89,7 @@ export default function ForgotPassword() {
           sx={{ display: "flex", flexDirection: "column", gap: 3 }}
         >
           <TextField
-            label="Email"
+            label={t("Email")}
             {...register("email")}
             fullWidth
             error={!!errors.email}
@@ -99,12 +101,12 @@ export default function ForgotPassword() {
             variant="contained"
             sx={{ py: 1.5, fontWeight: 600 }}
           >
-            Send Reset Code
+            {t("Send Reset Code")}
           </Button>
         </Box>
 
         <Typography mt={3} textAlign="center" variant="body2">
-          Remember your password?{" "}
+          {t("Remember your password?")}{" "}
           <Typography
             component="span"
             onClick={() => navigate("/login")}
@@ -114,7 +116,7 @@ export default function ForgotPassword() {
               fontWeight: 600,
             }}
           >
-            Sign In
+            {t("Sign In")}
           </Typography>
         </Typography>
       </Box>

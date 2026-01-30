@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validations/RegisterSchema";
 import useRegister from "../../hooks/useRegister";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -51,11 +53,11 @@ export default function Register() {
         }}
       >
         <Typography variant="h4" fontWeight={700} mb={1}>
-          Create an account
+          {t("Create an account")}
         </Typography>
 
         <Typography color="text.secondary" mb={3}>
-          Access to all features.
+          {t("Access to all features.")}
         </Typography>
 
         {serverErrors.length > 0 && (
@@ -78,7 +80,7 @@ export default function Register() {
           sx={{ display: "flex", flexDirection: "column", gap: 3 }}
         >
           <TextField
-            label="User Name"
+            label={t("User Name")}
             {...register("userName")}
             fullWidth
             error={!!errors.userName}
@@ -86,7 +88,7 @@ export default function Register() {
           />
 
           <TextField
-            label="Full Name"
+            label={t("Full Name")}
             {...register("fullName")}
             fullWidth
             error={!!errors.fullName}
@@ -94,7 +96,7 @@ export default function Register() {
           />
 
           <TextField
-            label="Phone Number"
+            label={t("Phone Number")} 
             {...register("phoneNumber")}
             fullWidth
             error={!!errors.phoneNumber}
@@ -102,7 +104,7 @@ export default function Register() {
           />
 
           <TextField
-            label="Email"
+            label={t("Email")}
             {...register("email")}
             fullWidth
             error={!!errors.email}
@@ -110,7 +112,7 @@ export default function Register() {
           />
 
           <TextField
-            label="Password"
+            label={t("Password")}
             type="password"
             {...register("password")}
             fullWidth
@@ -126,13 +128,13 @@ export default function Register() {
             {isSubmitting ? (
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             ) : (
-              "Sign Up"
+              t("Sign Up")
             )}
           </Button>
         </Box>
 
         <Typography mt={3} textAlign="center" variant="body2">
-          Already have an account?{" "}
+          {t("Already have an account?")}{" "}
           <Typography
             component={Link}
             to="/login"
@@ -142,7 +144,7 @@ export default function Register() {
               fontWeight: 600,
             }}
           >
-            Sign In
+            {t("Sign In")}
           </Typography>
         </Typography>
       </Box>

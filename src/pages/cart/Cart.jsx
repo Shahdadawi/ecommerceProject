@@ -104,7 +104,6 @@ export default function Cart() {
       }}
     >
       <Container maxWidth="lg">
-        {/* ===== HEADER ===== */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" fontWeight={800}>
             {t("Shopping Cart")}
@@ -121,7 +120,6 @@ export default function Cart() {
             gap: 3,
           }}
         >
-          {/* ===== CART TABLE ===== */}
           <Paper
             elevation={0}
             sx={{
@@ -276,7 +274,6 @@ export default function Cart() {
             )}
           </Paper>
 
-          {/* ===== CART TOTALS ===== */}
           <Paper
             elevation={0}
             sx={{

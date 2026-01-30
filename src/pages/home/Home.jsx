@@ -26,7 +26,6 @@ export default function Home() {
 
       <Divider />
 
-      {/* 🔹 Categories Section */}
       <Box sx={{ mt: 6 }}>
         <Categories
           selectedCategoryId={selectedCategoryId}
@@ -36,7 +35,6 @@ export default function Home() {
 
       <Divider sx={{ my: 6 }} />
 
-      {/* 🔹 Products Section */}
       <ProductsSection categoryId={selectedCategoryId} />
     </Box>
   );

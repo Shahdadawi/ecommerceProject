@@ -120,7 +120,6 @@ function CheckOut() {
             gap: 3,
           }}
         >
-          {/* ===== ORDER ITEMS ===== */}
           <Paper
             sx={{
               p: 2,
@@ -175,7 +174,6 @@ function CheckOut() {
             </Button>
           </Paper>
 
-          {/* ===== PAYMENT SUMMARY ===== */}
           <Paper
             sx={{
               p: 3,

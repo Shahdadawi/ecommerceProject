@@ -13,8 +13,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../validations/LoginSchema";
 import useLogin from "../../hooks/useLogin";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -58,11 +60,11 @@ export default function Login() {
         }}
       >
         <Typography variant="h4" fontWeight={700} mb={1}>
-          Member Login
+          {t("Member Login")}
         </Typography>
 
         <Typography color="text.secondary" mb={3}>
-          Welcome back!
+          {t("Welcome back!")}
         </Typography>
 
         {serverErrors.length > 0 && (
@@ -91,7 +93,7 @@ export default function Login() {
           sx={{ display: "flex", flexDirection: "column", gap: 3 }}
         >
           <TextField
-            label="Email"
+            label={t("Email")}
             {...register("email")}
             fullWidth
             error={!!errors.email}
@@ -99,7 +101,7 @@ export default function Login() {
           />
 
           <TextField
-            label="Password"
+            label={t("Password")}
             type="password"
             {...register("password")}
             fullWidth
@@ -116,7 +118,7 @@ export default function Login() {
           >
             <FormControlLabel
               control={<Checkbox />}
-              label="Remember me"
+              label={t("Remember me")}
             />
 
             <Typography
@@ -128,7 +130,7 @@ export default function Login() {
                 fontWeight: 500,
               }}
             >
-              Forgot your password?
+              {t("Forgot your password?")}
             </Typography>
           </Box>
 
@@ -140,13 +142,13 @@ export default function Login() {
             {isSubmitting ? (
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             ) : (
-              "Sign In"
+              t("Sign In")
             )}
           </Button>
         </Box>
 
         <Typography mt={3} textAlign="center" variant="body2">
-          Have not an account?{" "}
+          {t("Have not an account?")}{" "}
           <Typography
             component="span"
             onClick={() => navigate("/register")}
@@ -156,7 +158,7 @@ export default function Login() {
               fontWeight: 600,
             }}
           >
-            Sign up
+            {t("Sign up")}
           </Typography>
         </Typography>
       </Box>

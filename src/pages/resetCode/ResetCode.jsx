@@ -9,8 +9,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ResetPasswordSchema } from "../../validations/ResetPasswordSchema";
 import useResetCode from "../../hooks/useResetCode";
+import { useTranslation } from "react-i18next";
 
 export default function ResetCode() {
+  const {t} = useTranslation();
   const {
     register,
     handleSubmit,
@@ -54,11 +56,11 @@ export default function ResetCode() {
         }}
       >
         <Typography variant="h4" fontWeight={700} mb={1}>
-          Reset Password
+          {t("Reset Password")}
         </Typography>
 
         <Typography color="text.secondary" mb={3}>
-          Enter the code sent to <b>{email}</b>
+          {t("Enter the code sent to")} <b>{email}</b>
         </Typography>
 
         {serverErrors.length > 0 && (
@@ -87,7 +89,7 @@ export default function ResetCode() {
           sx={{ display: "flex", flexDirection: "column", gap: 3 }}
         >
           <TextField
-            label="Reset Code"
+            label={t("Reset Code")}
             {...register("code")}
             fullWidth
             error={!!errors.code}
@@ -95,7 +97,7 @@ export default function ResetCode() {
           />
 
           <TextField
-            label="New Password"
+            label={t("New Password")}
             type="password"
             {...register("newPassword")}
             fullWidth
@@ -108,7 +110,7 @@ export default function ResetCode() {
             variant="contained"
             sx={{ py: 1.5, fontWeight: 600 }}
           >
-            Reset Password
+            {t("Reset Password")}
           </Button>
         </Box>
       </Box>
