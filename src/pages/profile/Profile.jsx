@@ -57,7 +57,6 @@ export default function Profile() {
 
   return (
     <>
-      {/* Mobile Top Bar */}
       <Box
         sx={{
           display: { xs: "block", md: "none" },
@@ -111,7 +110,6 @@ export default function Profile() {
         </Stack>
       </Box>
 
-      {/* Main Container */}
       <Box
         sx={{
           display: "flex",
@@ -121,7 +119,6 @@ export default function Profile() {
         }}
       >
 
-        {/* ===== SIDEBAR - Full Height ===== */}
         <Box
           sx={{
             width: 280,
@@ -133,7 +130,7 @@ export default function Profile() {
             borderColor: "divider",
 
             position: "fixed",
-            top: "64px",   // 👈 نفس ارتفاع الـ Navbar الحقيقي
+            top: "64px",   
             left: 0,
 
             height: "calc(100vh - 64px)",
@@ -142,7 +139,6 @@ export default function Profile() {
           }}
         >
 
-          {/* User Info Card */}
           <Box
             sx={{
               p: 3,
@@ -203,7 +199,6 @@ export default function Profile() {
             </Box>
           </Box>
 
-          {/* Navigation Menu */}
           <List sx={{ flex: 1, py: 2, px: 2 }}>
             {menuItems.map((item) => (
               <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
@@ -258,11 +253,10 @@ export default function Profile() {
 
         </Box>
 
-        {/* ===== CONTENT AREA ===== */}
         <Box
           sx={{
             flex: 1,
-            ml: { md: "280px" }, // 👈 نفس عرض السايد بار
+            ml: { md: "280px" }, 
             minHeight: "100vh",
             bgcolor: "background.default",
           }}

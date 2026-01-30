@@ -24,7 +24,6 @@ export default function ProfileInfo() {
   const changeEmail = useChangeEmail();
   const changePassword = useChangePassword();
 
-  /* ================= STATES ================= */
 
   const [editBasic, setEditBasic] = useState(false);
 
@@ -42,7 +41,6 @@ export default function ProfileInfo() {
     confirm: "",
   });
 
-  /* ================= INIT ================= */
 
   useEffect(() => {
     if (data) {
@@ -54,7 +52,6 @@ export default function ProfileInfo() {
     }
   }, [data]);
 
-  /* ================= LOADING / ERROR ================= */
 
   if (isLoading) {
     return (
@@ -74,12 +71,10 @@ export default function ProfileInfo() {
     );
   }
 
-  /* ================= HELPERS ================= */
 
   const isValidEmail = (value) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  /* ================= HANDLERS ================= */
 
   const handleSaveBasic = () => {
     if (!basicForm.fullName.trim()) {
@@ -87,7 +82,6 @@ export default function ProfileInfo() {
       return;
     }
 
-    // no changes
     if (
       basicForm.fullName === data.fullName &&
       basicForm.phoneNumber === data.phoneNumber &&
@@ -172,7 +166,6 @@ export default function ProfileInfo() {
     );
   };
 
-  /* ================= UI ================= */
 
   return (
     <Box>
@@ -186,7 +179,6 @@ export default function ProfileInfo() {
 
       <Divider sx={{ mb: 4 }} />
 
-      {/* ===== BASIC INFO ===== */}
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           {editBasic ? (
@@ -242,7 +234,6 @@ export default function ProfileInfo() {
         </Grid>
       </Grid>
 
-      {/* ===== ACTIONS ===== */}
       <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
         {editBasic ? (
           <>
@@ -264,7 +255,6 @@ export default function ProfileInfo() {
         )}
       </Box>
 
-      {/* ===== CHANGE EMAIL ===== */}
       <Divider sx={{ my: 5 }} />
 
       <Typography variant="h6" fontWeight={700} mb={2}>

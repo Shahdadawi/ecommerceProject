@@ -56,7 +56,6 @@ export default function ProfileOrders() {
 
   return (
     <Box>
-      {/* Title */}
       <Typography variant="h5" fontWeight={800} mb={1}>
         {t("My Orders")}
       </Typography>
@@ -65,7 +64,6 @@ export default function ProfileOrders() {
         {t("Here is a list of all your orders")}
       </Typography>
 
-      {/* Orders Table */}
       <TableContainer
         component={Paper}
         sx={{
